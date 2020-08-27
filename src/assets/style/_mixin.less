@@ -1,0 +1,45 @@
+.clearfloat-mixin() {
+  content: ' ';
+  display: table;
+  width: 0;
+  height: 0;
+  clear: both;
+}
+.border-gray-mixin(){
+  &:after{
+    border-color: #707070;
+  }
+}
+.text-overflow-mixin() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.text-multi-mixin($line: 3) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+}
+
+.word-break-mixin() {
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: initial;
+}
+
+
+.transition-mixin($transition:all 0.5s ease) {
+  transition: $transition;
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -o-transition: $transition;
+}
+
+.border-radius-mixin($border-radius:3px) {
+  border-radius: $border-radius;
+  -webkit-border-radius: $border-radius;
+  -moz-border-radius: $border-radius;
+  -ms-border-radius: $border-radius;
+}
