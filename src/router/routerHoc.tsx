@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import { useHistory,useLocation } from 'react-router';
 import nprogress from '../util/nprogress';
 export const RouterHoc = observer(() => {
+  console.log('2333')
   const history = useHistory();
   const location=useLocation();
   useEffect(() => {

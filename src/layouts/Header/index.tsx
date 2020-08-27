@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.less';
+import style from './index.module.scss'
 import { commonStore } from '../../store/common.store';
 import { Button, Dropdown, Menu } from 'antd';
 import { HEADER_HEIGHT } from '../../config/style'
@@ -28,14 +28,14 @@ export const Header = observer(() => {
     </Menu>
   );
   return (
-    <div className='header' style={{ height:HEADER_HEIGHT }}>
-      <div className='btn'>
+    <div className={ style.header } style={{ height:HEADER_HEIGHT }}>
+      <div className={  style.btn }>
         <Button type="primary" onClick={toggleCollapsed}>
           {React.createElement(commonStore.isCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
         </Button>
       </div>
       <Dropdown overlay={menu} placement="bottomCenter" arrow>
-        <div className='avatar'>
+        <div className={  style.avatar }>
           <img src={avatar} alt="" />
         </div>
       </Dropdown>

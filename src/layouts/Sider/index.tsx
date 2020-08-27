@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './index.less';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 import { SIDEBAR_WIDTH } from '../../config/style';
@@ -9,6 +8,7 @@ import { router } from '../../store/router.store';
 import { Title } from './Title/index';
 import { useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import style from './index.module.scss'
 import { getMapByPath, showedItem, getRouteByPath } from '../../util/methods';
 const { SubMenu } = Menu;
 const MenuItem = Menu.Item;
@@ -88,7 +88,7 @@ export const Sider = observer(() => {
 
   return (
     <div
-      className="side"
+      className={ style.side }
       style={{
         width: commonStore.isCollapsed ? SIDEBAR_WIDTH[1] : SIDEBAR_WIDTH[0],
       }}

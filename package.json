@@ -6,7 +6,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject":"react-scripts eject"
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "antd": "^4.6.0",
@@ -40,6 +40,7 @@
     "less-loader": "^6.2.0",
     "mocker-api": "^2.3.5",
     "mockjs": "^1.1.0",
+    "node-sass": "^4.14.1",
     "react-scripts": "3.4.3",
     "typescript": "~3.7.2"
   },

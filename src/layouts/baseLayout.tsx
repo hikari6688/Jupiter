@@ -2,19 +2,19 @@ import React from 'react';
 import { Header } from './Header/index';
 import { Main } from './Main/index';
 import { Sider } from './Sider/index';
-import './baseLayout.less';
+import style from './baseLayout.module.scss'
 
 export const BaseLayout = (props) => {
   return (
-    <div className="baseLayout">
-      <div className="left">
+    <div className={ style.baseLayout }>
+      <div className={ style.left }>
         <Sider />
       </div>
-      <div className="right">
-        <div className="headerWrap">
+      <div className={ style.right }>
+        <div className={ style.headerWrap }>
           <Header />
         </div>
-        <div className="mainWrap">
+        <div className={ style.mainWrap }>
           <Main />
         </div>
       </div>
