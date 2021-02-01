@@ -62,7 +62,7 @@ export const Sider = observer(() => {
   const makeStatus = () => {
     if (router.routes.length) {
       const parent = getMapByPath(router.routes, location.pathname)[0] || {};
-      const current = getRouteByPath(router.routes, location.pathname);
+      const current = getRouteByPath(router.routes, location.pathname)||{};
       setOpened([parent.path] || []);
       setActive([current.name] || []);
     }
