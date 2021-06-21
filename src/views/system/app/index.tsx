@@ -1,8 +1,9 @@
-import React from 'react';
-import { Button } from 'antd';
+import React, { useEffect, useState, useContext } from 'react';
+import { Button, Input } from 'antd';
 import { AuthWrap } from '../../../components/AuthWrap/index.jsx';
 import { STable } from '../../../components/Table';
-import { resolve } from 'dns';
+import { useLocalStorage, useDebounce } from '../../../hooks/index';
+import { ThemeContext } from '../../../context/index';
 interface resType {
   code: number;
   data: {
@@ -29,7 +30,9 @@ export const App = () => {
       key: 'address',
     },
   ];
-
+  const [user, setUser] = useLocalStorage('user');
+  const [value, setValue] = useState();
+  const theme = useContext(ThemeContext);
   const getList = (params) => {
     return new Promise((resolve) => {
       setTimeout((r) => {
@@ -61,7 +64,7 @@ export const App = () => {
       result?: [{}];
     };
   }
-  const data = (pagination):any => {
+  const data = (pagination): any => {
     return getList(pagination).then((r) => {
       return r;
     });
@@ -69,12 +72,29 @@ export const App = () => {
   const onChange = (pagination): void => {
     console.log(pagination);
   };
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+  const deletUser = () => {
+    theme.setTheme('light');
+  };
+  const print = (v): void => {
+    console.log(v);
+  };
+  const run = useDebounce(print, 1000);
   return (
     <div>
       <STable onChange={onChange} data={data as any} columns={columns} />
       <p>apppp</p>
+      <Input
+        value={value}
+        type="text"
+        onInput={(e) => {
+          run(e.currentTarget.value);
+        }}
+      />
       <AuthWrap auth={'app:add'}>
-        <Button>删除</Button>
+        <Button onClick={deletUser}>删除</Button>
       </AuthWrap>
       <AuthWrap auth={'app:update'}>
         <Button>编辑</Button>

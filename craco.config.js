@@ -4,7 +4,6 @@ const { resolve } = require('path');
 const { REACT_APP_API_ROOT, REACT_APP_API_HOST } = process.env;
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const CracoLessPlugin = require('craco-less');
-const apiMocker = require('mocker-api');
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const productionGzipExtensions = ['js', 'css'];
 const path = require('path')

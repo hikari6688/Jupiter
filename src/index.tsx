@@ -5,12 +5,15 @@ import 'antd/dist/antd.css';
 import zhCN from 'antd/es/locale/zh_CN';
 import './assets/style/common.less';
 import './index.css';
-import { RouterMap } from './router/index'
+import { RouterMap } from './router/index';
 import * as serviceWorker from './serviceWorker';
+import { ThemeProvider } from './context/index';
 
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
-    <RouterMap/>
+    <ThemeProvider>
+      <RouterMap />
+    </ThemeProvider>
   </ConfigProvider>,
   document.getElementById('root')
 );
