@@ -4,6 +4,7 @@ import { AuthWrap } from '../../../components/AuthWrap/index.jsx';
 import { STable } from '../../../components/Table';
 import { useLocalStorage, useDebounce } from '../../../hooks/index';
 import { ThemeContext } from '../../../context/index';
+import useModal from '../../../hooks/modal';
 interface resType {
   code: number;
   data: {
@@ -33,6 +34,8 @@ export const App = () => {
   const [user, setUser] = useLocalStorage('user');
   const [value, setValue] = useState();
   const theme = useContext(ThemeContext);
+  const content = <div>2333</div>;
+  const { setShow, CustomModal } = useModal({ title: '设置', content });
   const getList = (params) => {
     return new Promise((resolve) => {
       setTimeout((r) => {
@@ -76,7 +79,7 @@ export const App = () => {
     console.log(user);
   }, [user]);
   const deletUser = () => {
-    theme.setTheme('light');
+    setShow(true);
   };
   const print = (v): void => {
     console.log(v);
@@ -99,6 +102,7 @@ export const App = () => {
       <AuthWrap auth={'app:update'}>
         <Button>编辑</Button>
       </AuthWrap>
+      <CustomModal />
     </div>
   );
 };

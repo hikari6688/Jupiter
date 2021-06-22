@@ -1,13 +1,18 @@
-import React from 'react';
-import style from './index.module.scss'
+import React, { useContext } from 'react';
+import style from './index.module.scss';
 import { commonStore } from '../../store/common.store';
-import { Button, Dropdown, Menu } from 'antd';
-import { HEADER_HEIGHT } from '../../config/style'
+import { Button, Dropdown, Menu, Select } from 'antd';
+import { HEADER_HEIGHT } from '../../config/style';
 import { observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import avatar from '../../assets/img/cat.png';
+import { ThemeContext } from '../../context/index';
+import { ThemeEnum } from '../../config/enum';
+const { Option } = Select;
+
 export const Header = observer(() => {
+  const theme = useContext(ThemeContext);
   const history = useHistory();
   const toggleCollapsed = () => {
     commonStore.setCollapsed();
@@ -27,18 +32,36 @@ export const Header = observer(() => {
       </Menu.Item>
     </Menu>
   );
+  const handleChange = (v) => {
+    theme.setTheme(v);
+  };
   return (
-    <div className={ style.header } style={{ height:HEADER_HEIGHT }}>
-      <div className={  style.btn }>
+    <div className={style.header} style={{ height: HEADER_HEIGHT }}>
+      <div className={style.btn}>
         <Button type="primary" onClick={toggleCollapsed}>
-          {React.createElement(commonStore.isCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+          {React.createElement(
+            commonStore.isCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined
+          )}
         </Button>
       </div>
-      <Dropdown overlay={menu} placement="bottomCenter" arrow>
-        <div className={  style.avatar }>
-          <img src={avatar} alt="" />
+      <div className={style.rightWrap}>
+        <div className={style.theme}>
+          <Select
+            size='middle'
+            defaultValue={theme.theme}
+            style={{ width: 80 }}
+            onChange={handleChange}
+          >
+            <Option value={ThemeEnum.light}>浅色</Option>
+            <Option value={ThemeEnum.dark}>深色</Option>
+          </Select>
         </div>
-      </Dropdown>
+        <Dropdown overlay={menu} placement="bottomCenter" arrow>
+          <div className={style.avatar}>
+            <img src={avatar} alt="" />
+          </div>
+        </Dropdown>
+      </div>
     </div>
   );
 });

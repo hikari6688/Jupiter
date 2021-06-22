@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Header } from './Header/index';
 import { Main } from './Main/index';
 import { Sider } from './Sider/index';
-import style from './baseLayout.module.scss'
-
+import style from './baseLayout.module.scss';
+import { ThemeContext } from '../context/index';
 export const BaseLayout = (props) => {
+  const theme = useContext(ThemeContext);
   return (
-    <div className={ style.baseLayout }>
-      <div className={ style.left }>
+    <div className={`${style.baseLayout}`} data-theme={theme.theme}>
+      <div className={style.left}>
         <Sider />
       </div>
-      <div className={ style.right }>
-        <div className={ style.headerWrap }>
+      <div className={style.right}>
+        <div className={style.headerWrap}>
           <Header />
         </div>
-        <div className={ style.mainWrap }>
+        <div className={style.mainWrap}>
           <Main />
         </div>
       </div>

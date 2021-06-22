@@ -1,9 +1,6 @@
 import React, { useState, createContext } from 'react';
 import ThemeContext from './context';
-enum ThemeEnum {
-  light = 'light',
-  dark = 'dark',
-}
+import { ThemeEnum } from '../../config/enum'
 const ThemeProvider = (props) => {
   const [theme, setTheme] = useState(ThemeEnum.dark);
   return (

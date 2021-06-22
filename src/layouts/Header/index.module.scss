@@ -4,6 +4,13 @@
   align-items: center;
   padding: 0 20px;
   justify-content: space-between;
+  .rightWrap{
+    display: flex;
+    align-items: center;
+    .theme{
+      margin-right: 10px;
+    }
+  }
   .avatar {
     cursor: pointer;
     margin-right: 20px;
