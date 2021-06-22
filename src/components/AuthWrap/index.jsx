@@ -3,15 +3,8 @@ import { auth } from '../../store/auth.store';
 export const AuthWrap = (props) => {
   const permission = props.auth;
   const authList = auth.authList;
-  const checkAuth = authList.some((i) => {
+  const hasAuth = authList.find((i) => {
     return i == permission;
   });
-  return (
-    <div
-      className="authGuard"
-      style={{ display: checkAuth ? 'block' : 'none' }}
-    >
-      {props.children}
-    </div>
-  );
+  return <div className="authGuard">{hasAuth ? props.children : ''}</div>;
 };
