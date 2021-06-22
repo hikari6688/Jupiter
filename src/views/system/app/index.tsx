@@ -1,10 +1,14 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Button, Input } from 'antd';
 import { AuthWrap } from '../../../components/AuthWrap/index.jsx';
 import { STable } from '../../../components/Table';
-import { useLocalStorage, useDebounce } from '../../../hooks/index';
+import {
+  useLocalStorage,
+  useDebounce,
+  useModal,
+  useFullScreen,
+} from '../../../hooks/index';
 import { ThemeContext } from '../../../context/index';
-import useModal from '../../../hooks/modal';
 interface resType {
   code: number;
   data: {
@@ -35,7 +39,9 @@ export const App = () => {
   const [value, setValue] = useState();
   const theme = useContext(ThemeContext);
   const content = <div>2333</div>;
+  const inputEl = useRef();
   const { setShow, CustomModal } = useModal({ title: '设置', content });
+  const { toggleFullScreen } = useFullScreen(inputEl);
   const getList = (params) => {
     return new Promise((resolve) => {
       setTimeout((r) => {
@@ -80,15 +86,16 @@ export const App = () => {
   }, [user]);
   const deletUser = () => {
     setShow(true);
+    toggleFullScreen();
   };
   const print = (v): void => {
     console.log(v);
   };
   const run = useDebounce(print, 1000);
   return (
-    <div>
-      <STable onChange={onChange} data={data as any} columns={columns} />
-      <p>apppp</p>
+    <div ref={inputEl}>
+      <STable  onChange={onChange} data={data as any} columns={columns} />
+      <p className="dima">apppp</p>
       <Input
         value={value}
         type="text"
