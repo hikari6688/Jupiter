@@ -1,19 +1,38 @@
 import { useState } from 'react';
-
+interface dataType {
+  value: any;
+  date: number;
+  expire: number;
+}
 const useLocalStorage = (key: string, initialValue?: any) => {
-  const [storage, setStorage] = useState(() => {
-    const item = localStorage.getItem(key);
+  const [storage, setStorage] = useState<dataType>(() => {
+    const item: dataType = JSON.parse(localStorage.getItem(key));
+    if (item.expire) {
+      //时间过期之后调用直接清楚缓存
+      const overdue = item.date + item.expire > new Date().getTime();
+      overdue && localStorage.removeItem(key);
+      return '';
+    }
     try {
-      return item ? JSON.parse(item) : initialValue;
+      return item && item.value ? item.value : initialValue;
     } catch (error) {
-      return item || initialValue;
+      return initialValue || '';
     }
   });
-  const setLocalStorageState = (newState: any): void | string => {
+
+  const setLocalStorageState = (
+    newState: any,
+    expire?: number
+  ): void | string => {
     try {
-      const item = JSON.stringify(newState);
-      localStorage.setItem(key, item);
-      setStorage(item);
+      const data: dataType = {
+        value: newState,
+        date: new Date().getTime(),
+        expire,
+      };
+      const jsonData = JSON.stringify(data);
+      localStorage.setItem(key, jsonData);
+      setStorage(newState);
     } catch (error) {
       console.log(error);
     }
