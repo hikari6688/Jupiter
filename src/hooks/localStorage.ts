@@ -1,40 +1,51 @@
 import { useState } from 'react';
-interface dataType {
+
+interface RecordType {
   value: any;
   date: number;
   expire: number;
 }
+
+type ExpireKey = 's' | 'm' | 'h' | 'd';
+
+enum ExpireEnum {
+  s = 1000,
+  m = 60000,
+  h = 3600000,
+  d = 86400000,
+}
+
 const useLocalStorage = (key: string, initialValue?: any) => {
-  const [storage, setStorage] = useState<dataType>(() => {
-    const item: dataType = JSON.parse(localStorage.getItem(key));
-    if (item.expire) {
-      //时间过期之后调用直接清楚缓存
-      const overdue = item.date + item.expire > new Date().getTime();
-      overdue && localStorage.removeItem(key);
-      return '';
-    }
+  const [storage, setStorage] = useState<RecordType>(() => {
     try {
-      return item && item.value ? item.value : initialValue;
+      const record: RecordType = JSON.parse(localStorage.getrecord(key));
+      if (record.expire && record.date) {
+        const { expire, date } = record;
+        const overdue = date + expire > new Date().getTime();
+        overdue && localStorage.removerecord(key);
+        return '';
+      }
+      return record && record.value ? record.value : initialValue;
     } catch (error) {
-      return initialValue || '';
+      return '';
     }
   });
 
   const setLocalStorageState = (
     newState: any,
-    expire?: number
-  ): void | string => {
+    expire?: [number, ExpireKey]
+  ): void => {
     try {
-      const data: dataType = {
+      const record: RecordType = {
         value: newState,
         date: new Date().getTime(),
-        expire,
+        expire: expire[0] * ExpireEnum[expire[1]],
       };
-      const jsonData = JSON.stringify(data);
-      localStorage.setItem(key, jsonData);
+      const parsingData = JSON.stringify(record);
+      localStorage.setItem(key, parsingData);
       setStorage(newState);
     } catch (error) {
-      console.log(error);
+      console.error(`Unable to store new value for ${key} in localStorage.`);
     }
   };
   return [storage, setLocalStorageState];

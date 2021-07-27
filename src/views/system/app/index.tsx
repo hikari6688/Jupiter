@@ -85,8 +85,9 @@ export const App = () => {
     console.log(user);
   }, [user]);
   const deletUser = () => {
-    setShow(true);
-    toggleFullScreen();
+    // setShow(true);
+    // toggleFullScreen();
+   
   };
   const print = (v): void => {
     console.log(v);
