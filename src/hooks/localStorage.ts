@@ -5,7 +5,10 @@ interface RecordType {
   date: number;
   expire: number;
 }
-
+interface SetType {
+  newState: any;
+  expire?: [number, ExpireKey];
+}
 type ExpireKey = 's' | 'm' | 'h' | 'd';
 
 enum ExpireEnum {
@@ -15,7 +18,10 @@ enum ExpireEnum {
   d = 86400000,
 }
 
-const useLocalStorage = (key: string, initialValue?: any) => {
+const useLocalStorage = (
+  key: string,
+  initialValue?: any
+): [RecordType, (newState: any, expire?: [number, ExpireKey]) => void] => {
   const [storage, setStorage] = useState<RecordType>(() => {
     try {
       const record: RecordType = JSON.parse(localStorage.getrecord(key));
