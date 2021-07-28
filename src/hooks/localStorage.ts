@@ -1,16 +1,5 @@
 import { useState } from 'react';
 
-interface RecordType {
-  value: any;
-  date: number;
-  expire: number;
-}
-interface SetType {
-  newState: any;
-  expire?: [number, ExpireKey];
-}
-type ExpireKey = 's' | 'm' | 'h' | 'd';
-
 enum ExpireEnum {
   s = 1000,
   m = 60000,
@@ -18,17 +7,24 @@ enum ExpireEnum {
   d = 86400000,
 }
 
-const useLocalStorage = (
-  key: string,
-  initialValue?: any
-): [RecordType, (newState: any, expire?: [number, ExpireKey]) => void] => {
+interface RecordType {
+  value: any;
+  date: number;
+  expire: number;
+}
+
+type SetType = (newState: any, expire?: [number, ExpireKey]) => void;
+
+type ExpireKey = 's' | 'm' | 'h' | 'd';
+
+const useLocalStorage = (key: string, initialValue?: any): [any, SetType] => {
   const [storage, setStorage] = useState<RecordType>(() => {
     try {
-      const record: RecordType = JSON.parse(localStorage.getrecord(key));
+      const record: RecordType = JSON.parse(localStorage.getItem(key));
       if (record.expire && record.date) {
         const { expire, date } = record;
-        const overdue = date + expire > new Date().getTime();
-        overdue && localStorage.removerecord(key);
+        const overdue = date + expire < new Date().getTime();
+        overdue && localStorage.removeItem(key);
         return '';
       }
       return record && record.value ? record.value : initialValue;
@@ -36,11 +32,7 @@ const useLocalStorage = (
       return '';
     }
   });
-
-  const setLocalStorageState = (
-    newState: any,
-    expire?: [number, ExpireKey]
-  ): void => {
+  const setLocalStorageState: SetType = (newState, expire?) => {
     try {
       const record: RecordType = {
         value: newState,

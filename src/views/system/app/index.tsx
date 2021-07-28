@@ -87,7 +87,7 @@ export const App = () => {
   const deletUser = () => {
     // setShow(true);
     // toggleFullScreen();
-   
+    setUser({ name: 233 },[10,'s']);
   };
   const print = (v): void => {
     console.log(v);
@@ -95,7 +95,7 @@ export const App = () => {
   const run = useDebounce(print, 1000);
   return (
     <div ref={inputEl}>
-      <STable  onChange={onChange} data={data as any} columns={columns} />
+      <STable onChange={onChange} data={data as any} columns={columns} />
       <p className="dima">apppp</p>
       <Input
         value={value}
