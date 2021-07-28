@@ -101,11 +101,6 @@ request.interceptors.response.use(
 );
 export default request;
 
-export const get = (url:string, params = {}, config = {}) => request({ method: 'get', url, params, ...config });
-export const post = (url:string, data = {}, config = {}) => request({ method: 'post', url, data, ...config });
-export const put = (url:string, data = {}, config = {}) => request({ method: 'put', url, data, ...config });
-export const patch = (url:string, data = {}, config = {}) => request({ method: 'put', url, data, ...config });
-export const del = (url:string, data = {}, config = {}) => request({ method: 'delete', url, data, ...config });
 /**
  * 刷新token
  * @param {string} refreshToken
