@@ -19,7 +19,7 @@ function useRequest<T>(config: ReuqestArgs) {
   const [state, setState] = useState<T>(null);
   useEffect(() => {
     !manual && run();
-  }, [data]);
+  }, []);
   const run = async () => {
     setLoading(true);
     try {

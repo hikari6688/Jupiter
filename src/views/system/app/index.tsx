@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, Tooltip } from 'antd';
 import { AuthWrap } from '../../../components/AuthWrap/index.jsx';
 import { STable } from '../../../components/Table';
 import {
@@ -23,6 +23,15 @@ export const App = () => {
       title: '姓名',
       dataIndex: 'name',
       key: 'name',
+      width: 120,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (address) => (
+        <Tooltip placement="topLeft" title={address}>
+          {address}
+        </Tooltip>
+      ),
     },
     {
       title: '年龄',
@@ -35,6 +44,9 @@ export const App = () => {
       key: 'address',
     },
   ];
+
+  //表格搜索配置
+
   const [user, setUser] = useLocalStorage('user');
   const [value, setValue] = useState();
   const theme = useContext(ThemeContext);
@@ -52,6 +64,54 @@ export const App = () => {
             current: 1,
             total: 12,
             result: [
+              {
+                key: '1',
+                name: '胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号',
+              },
+              {
+                key: '1',
+                name: '胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号',
+              },
+              {
+                key: '1',
+                name: '胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号',
+              },
+              {
+                key: '1',
+                name: '胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号',
+              },
+              {
+                key: '1',
+                name: '胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号',
+              },
+              {
+                key: '1',
+                name: '胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号',
+              },
+              {
+                key: '1',
+                name: '胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号',
+              },
+              {
+                key: '1',
+                name: '胡彦斌',
+                age: 32,
+                address: '西湖区湖底公园1号',
+              },
               {
                 key: '1',
                 name: '胡彦斌',
@@ -73,43 +133,35 @@ export const App = () => {
       result?: [{}];
     };
   }
-  const data = (pagination): any => {
-    return getList(pagination).then((r) => {
-      return r;
+
+  
+
+  const data = (pagination): Promise<any> => {
+    return getList(pagination).then((r: any) => {
+      return r.data;
     });
   };
   const onChange = (pagination): void => {
-    console.log(pagination);
+    // console.log(pagination);
   };
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
   const deletUser = () => {
     // setShow(true);
     // toggleFullScreen();
-    setUser({ name: 233 },[10,'s']);
+    setUser({ name: 233 }, [10, 's']);
+
+    debugger;
+    // setTimeout(() => {
+    //   popup.postMessage('Hello World!', '*');
+    // }, 100);
   };
   const print = (v): void => {
     console.log(v);
   };
+
   const run = useDebounce(print, 1000);
   return (
     <div ref={inputEl}>
-      <STable onChange={onChange} data={data as any} columns={columns} />
-      <p className="dima">apppp</p>
-      <Input
-        value={value}
-        type="text"
-        onInput={(e) => {
-          run(e.currentTarget.value);
-        }}
-      />
-      <AuthWrap auth={'app:add'}>
-        <Button onClick={deletUser}>删除</Button>
-      </AuthWrap>
-      <AuthWrap auth={'app:update'}>
-        <Button>编辑</Button>
-      </AuthWrap>
+      <STable data={data as any} columns={columns} />
       <CustomModal />
     </div>
   );

@@ -8,7 +8,9 @@ import './index.css';
 import { RouterMap } from './router/index';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from './context/index';
-
+window.addEventListener('message', function (e) {
+  console.log(e);
+});
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <ThemeProvider>

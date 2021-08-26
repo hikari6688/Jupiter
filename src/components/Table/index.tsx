@@ -1,21 +1,12 @@
-import React from 'react';
-import { Table, Tag, Space } from 'antd';
+import React, { RefObject, useRef } from 'react';
+import { Table, Form, Input, Button, Select } from 'antd';
 import { TableProps } from 'antd/lib/table';
 import { useEffect, useState } from 'react';
-
-let loading = false;
+import style from './index.module.scss';
 interface ResType {
-  code?: number;
-  data?: {
-    current?: number;
-    total?: number;
-    result?: [{}];
-  };
-}
-
-interface BaseTableProps<T> extends TableProps<T> {
-  data: () => Promise<T>; //数据源
-  onChange: (pagination) => void;
+  current?: number;
+  total?: number;
+  result?: [];
 }
 
 interface Pagination {
@@ -24,20 +15,31 @@ interface Pagination {
   current: number;
 }
 
+interface BaseTableProps<T> extends TableProps<T> {
+  data: () => Promise<T>; //数据源
+  onChange?: (pagination: Pagination) => void;
+}
+
 export const STable = (props: BaseTableProps<ResType>) => {
-  const [sorceData, setSorceData] = useState([]);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [sorceData, setSorceData] = useState<[]>([]);
   const [page, setPage] = useState({
     total: 0,
     pageSize: 10,
     current: 1,
   });
   const getData = async () => {
-    loading = true;
-    const res = await props.data();
-    loading = false;
-    const d = res.data;
-    setPage({ ...page, total: d.total });
-    setSorceData(d.result);
+    setLoading(true);
+    try {
+      const { total, result } = await props.data();
+      setPage({ ...page, total });
+      setSorceData(result);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -47,17 +49,45 @@ export const STable = (props: BaseTableProps<ResType>) => {
 
   const pageChange = (pagination) => {
     setPage({ ...pagination });
-    props.onChange(page);
+    props.onChange && props.onChange(page);
   };
 
   return (
-    <Table
-      {...props}
-      size="small"
-      loading={loading}
-      dataSource={sorceData}
-      pagination={page}
-      onChange={pageChange}
-    />
+    <div className={style.table_wrap}>
+      <div className={style.search}>
+        <Form form={form} name="horizontal_login" layout="inline">
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <Input placeholder="Username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input type="password" placeholder="Password" />
+          </Form.Item>
+          <Form.Item>
+            <Button type='primary'>搜索</Button>
+          </Form.Item>
+          <Form.Item>
+            <Button>重置</Button>
+          </Form.Item>
+        </Form>
+      </div>
+      <div className={style.stage}>
+        <Table
+          rowKey="id"
+          bordered
+          size="small"
+          loading={loading}
+          dataSource={sorceData}
+          pagination={page}
+          onChange={pageChange}
+          {...props}
+        />
+      </div>
+    </div>
   );
 };
