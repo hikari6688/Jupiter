@@ -1,8 +1,5 @@
 import { toJS } from 'mobx';
-
-
-
-function deepScan(item, path) {
+function deepScan(item, path): boolean {
   //扫描当前项是否能匹配到当前路由
   if (item.path === path) {
     return true;
@@ -20,7 +17,6 @@ export const getMapByPath = (routes, path) => {
     return deepScan(item, path);
   });
 };
-
 
 export const getRouteByPath = (routes, path) => {
   // 根据当前path寻找路由对象
@@ -84,7 +80,6 @@ export const getMacthBypath = (p, c) => {
   //获取当前路由能匹配上的所有上级路由 p=>顶级父对象 c=>当前节点路由对象
   const currentPath = c.path; //当前路由的pathname
 };
-
 
 export function showedItem(routes) {
   //当前菜单下是否存在要显示的字菜单(比如路由的新增组件并不会出现在左侧的菜单上面)

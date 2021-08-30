@@ -7,6 +7,7 @@ import {
   useDebounce,
   useModal,
   useFullScreen,
+  useLoop,
 } from '../../../hooks/index';
 import { ThemeContext } from '../../../context/index';
 interface resType {
@@ -17,7 +18,7 @@ interface resType {
     result: [];
   };
 }
-export const App = () => {
+const App = () => {
   const columns = [
     {
       title: '姓名',
@@ -50,6 +51,9 @@ export const App = () => {
   const [user, setUser] = useLocalStorage('user');
   const [value, setValue] = useState();
   const theme = useContext(ThemeContext);
+  const [start, stop] = useLoop(function () {
+    console.log('loooop');
+  }, 1000);
   const content = <div>2333</div>;
   const inputEl = useRef();
   const { setShow, CustomModal } = useModal({ title: '设置', content });
@@ -65,55 +69,25 @@ export const App = () => {
             total: 12,
             result: [
               {
-                key: '1',
+                id: 1,
                 name: '胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌',
                 age: 32,
                 address: '西湖区湖底公园1号',
               },
               {
-                key: '1',
+                id: 2,
                 name: '胡彦斌',
                 age: 32,
                 address: '西湖区湖底公园1号',
               },
               {
-                key: '1',
+                id: '3',
                 name: '胡彦斌',
                 age: 32,
                 address: '西湖区湖底公园1号',
               },
               {
-                key: '1',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号',
-              },
-              {
-                key: '1',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号',
-              },
-              {
-                key: '1',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号',
-              },
-              {
-                key: '1',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号',
-              },
-              {
-                key: '1',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号',
-              },
-              {
-                key: '1',
+                id: '4',
                 name: '胡彦斌',
                 age: 32,
                 address: '西湖区湖底公园1号',
@@ -133,8 +107,6 @@ export const App = () => {
       result?: [{}];
     };
   }
-
-  
 
   const data = (pagination): Promise<any> => {
     return getList(pagination).then((r: any) => {
@@ -157,7 +129,12 @@ export const App = () => {
   const print = (v): void => {
     console.log(v);
   };
-
+  useEffect(() => {
+    start();
+    return () => {
+      stop();
+    };
+  }, []);
   const run = useDebounce(print, 1000);
   return (
     <div ref={inputEl}>
@@ -166,3 +143,4 @@ export const App = () => {
     </div>
   );
 };
+export default App

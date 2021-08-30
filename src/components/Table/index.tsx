@@ -1,4 +1,4 @@
-import React, { RefObject, useRef } from 'react';
+import React from 'react';
 import { Table, Form, Input, Button, Select } from 'antd';
 import { TableProps } from 'antd/lib/table';
 import { useEffect, useState } from 'react';
@@ -55,6 +55,7 @@ export const STable = (props: BaseTableProps<ResType>) => {
   return (
     <div className={style.table_wrap}>
       <div className={style.search}>
+        {/* 设计成配置形式 支持文字输入 下拉 树形下拉 时间选择 预留插槽 */}
         <Form form={form} name="horizontal_login" layout="inline">
           <Form.Item
             name="username"
@@ -69,7 +70,7 @@ export const STable = (props: BaseTableProps<ResType>) => {
             <Input type="password" placeholder="Password" />
           </Form.Item>
           <Form.Item>
-            <Button type='primary'>搜索</Button>
+            <Button type="primary">搜索</Button>
           </Form.Item>
           <Form.Item>
             <Button>重置</Button>

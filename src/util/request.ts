@@ -9,7 +9,6 @@
 import axios,{ CancelToken, AxiosResponse, AxiosRequestConfig, AxiosInstance, AxiosError } from 'axios';
 import Cookie from 'js-cookie';
 import appConfig from '../config';
-import auth from '../api/auth';
 const env = process.env;
 const IS_PRODUCTION = env.NODE_ENV === 'production';
 const baseURL = IS_PRODUCTION ? env.VUE_APP_API_HOST : env.VUE_APP_API_ROOT;

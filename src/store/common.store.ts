@@ -1,27 +1,31 @@
 import { observable, action } from 'mobx';
 
+interface MenuConf {
+  openKeys: string[];
+  activekey: string;
+}
+
 class CommonStore {
   @observable
-  isCollapsed = false;
+  isCollapsed: boolean = false;
 
-  @observable 
-  menuConfig = {
+  @observable
+  menuConfig: MenuConf = {
     openKeys: [],
     activekey: '',
   };
 
   @observable
-  finished = false;
+  finished: boolean = false;
 
   @action
-  setCollapsed() {
+  setCollapsed(): void {
     this.isCollapsed = !this.isCollapsed;
   }
-  
+
   @action
-  setConfig(params) {
+  setConfig(params: MenuConf): void {
     this.menuConfig = { ...this.menuConfig, ...params };
-    console.log(this.menuConfig)
   }
 }
 export const commonStore = new CommonStore();

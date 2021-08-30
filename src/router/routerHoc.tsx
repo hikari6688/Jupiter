@@ -3,26 +3,28 @@ import { RouterMaker } from './makeRoutes';
 import { router } from '../store/router.store';
 import { Switch } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import { useHistory,useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import nprogress from '../util/nprogress';
+import config from '../config/index';
 export const RouterHoc = observer(() => {
-  console.log('2333')
   const history = useHistory();
-  const location=useLocation();
+  const location = useLocation();
   useEffect(() => {
-    nprogress.start();
     nprogress.done();
-    //没有token 回登陆页面
-    const token = localStorage.getItem('TOKEN');
-    if (!token) {
-      history.replace('/login');
-    }
-    //如果没路由 拉取权限路由
+    const token: string = localStorage.getItem(config.tokenKey);
+    if (!token) history.replace('/login');
     if (!router.routes || !router.routes.length) {
       router.getRoutes();
     }
+    return () => {
+      nprogress.start();
+    };
   }, [location.pathname]);
   return (
-    <Switch>{(router.routes && RouterMaker(router.routes)) || null}</Switch>
+    <Switch>
+      <React.Suspense fallback>
+        {(router.routes && RouterMaker(router.routes)) || null}
+      </React.Suspense>
+    </Switch>
   );
 });

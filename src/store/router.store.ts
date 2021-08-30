@@ -1,23 +1,24 @@
-import { observable, action, computed } from 'mobx';
-import { resolve } from 'dns';
+import { observable, action } from 'mobx';
+import { ROUTER_MAP } from '../router/router.type';
+
 class Router {
   @observable
-  routes: Array<object> = [];
+  routes: ROUTER_MAP[] = [];
+
   @action
-  getRoutes() {
-    //通过token获取路由表
-    return new Promise((resolve,reject)=>{
+  getRoutes(): Promise<ROUTER_MAP[]> {
+    return new Promise((resolve, reject) => {
       //发送请求
-      const res =[
+      const res: ROUTER_MAP[] = [
         {
           title: '系统设置',
           path: '/system',
           name: 'system',
-          redirect:'/system/app',
+          redirect: '/system/app',
           exact: false,
           icon: 'TwitterOutlined',
           children: [
-            { 
+            {
               title: '应用管理',
               path: '/system/app',
               name: 'app',
@@ -71,19 +72,19 @@ class Router {
                 },
               ],
             },
-          
           ],
         },
       ];
-      setTimeout(()=>{
-        this.setRoutes(res)
-        resolve(res)
-      },200)
-    })
+      setTimeout(() => {
+        this.setRoutes(res);
+        resolve(res);
+      }, 200);
+    });
   }
+
   @action
-  setRoutes(data){
-    this.routes=data
+  setRoutes(data: ROUTER_MAP[]): void {
+    this.routes = data;
   }
 }
 export const router = new Router();

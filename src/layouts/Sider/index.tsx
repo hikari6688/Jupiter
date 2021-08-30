@@ -9,7 +9,7 @@ import { Title } from './Title/index';
 import { useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import style from './index.module.scss'
-import { getMapByPath, showedItem, getRouteByPath } from '../../util/methods';
+import { getMapByPath, showedItem, getRouteByPath } from '../../util/router';
 const { SubMenu } = Menu;
 const MenuItem = Menu.Item;
 export const Sider = observer(() => {
