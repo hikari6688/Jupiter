@@ -4,7 +4,7 @@ import { Main } from './Main/index';
 import { Sider } from './Sider/index';
 import style from './baseLayout.module.scss';
 import { ThemeContext } from '../context/index';
-export const BaseLayout = (props) => {
+export const BaseLayout = () => {
   const theme = useContext(ThemeContext);
   return (
     <div className={`${style.baseLayout}`} data-theme={theme.theme}>

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react';
-import { RouterHoc } from '../../router/routerHoc';
+import { RouterHoc } from '../../router/routerConf';
 import style from './index.module.scss';
 import { ThemeContext } from '../../context/index';
 export const Main = observer(() => {

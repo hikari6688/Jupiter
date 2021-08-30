@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { RouterMaker } from './makeRoutes';
+import { RouterMaker } from './routerMaker';
 import { router } from '../store/router.store';
 import { Switch } from 'react-router-dom';
 import { observer } from 'mobx-react';
