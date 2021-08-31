@@ -16,15 +16,32 @@ function parseLang(lang: string) {
 const LangProvider = (props: any) => {
   const _lang: lan = parseLang(nl) as lan;
   const [lang, setLang] = useState<lan>(_lang);
-  const [t, setT] = useState<{}>();
+  const [json, setJson] = useState<{}>();
   useEffect(() => {
     axios.get(`/locales/${lang}.json`).then((r) => {
       const { data } = r;
-      setT(data);
+      setJson(data);
     });
   }, [lang]);
+
+  const langMaker = (key: string, template?: {}) => {
+    if (!json) return;
+    const item = json[key];
+    if (template) {
+      const keys = Object.keys(template);
+      keys.forEach(item=>{
+        // item.replace()
+      })
+    }
+    return item;
+    // 支持如下写法
+    //  message: {
+    //   hello: '{msg} world {call}'
+    // }
+    // <p>{{ $t('message.hello', { msg: 'hello' ,call:'bitxh'}) }}</p>
+  };
   return (
-    <LangContext.Provider value={{ t, setLang }}>
+    <LangContext.Provider value={{ t: langMaker, setLang }}>
       {props.children}
     </LangContext.Provider>
   );

@@ -10,11 +10,11 @@ import * as serviceWorker from './serviceWorker';
 import { ThemeProvider, LangProvider } from './context/index';
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
-    <LangProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <LangProvider>
         <RouterMap />
-      </ThemeProvider>
-    </LangProvider>
+      </LangProvider>
+    </ThemeProvider>
   </ConfigProvider>,
   document.getElementById('root')
 );

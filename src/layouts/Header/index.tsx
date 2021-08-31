@@ -7,12 +7,13 @@ import { observer } from 'mobx-react';
 import { useHistory } from 'react-router-dom';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import avatar from '../../assets/img/cat.png';
-import { ThemeContext } from '../../context/index';
+import { ThemeContext, LangContext } from '../../context/index';
 import { ThemeEnum } from '../../config/enum';
 const { Option } = Select;
 
 export const Header = observer(() => {
   const theme = useContext(ThemeContext);
+  const { t, setLang } = useContext(LangContext);
   const history = useHistory();
   const toggleCollapsed = () => {
     commonStore.setCollapsed();
@@ -47,7 +48,7 @@ export const Header = observer(() => {
       <div className={style.rightWrap}>
         <div className={style.theme}>
           <Select
-            size='middle'
+            size="middle"
             defaultValue={theme.theme}
             style={{ width: 80 }}
             onChange={handleChange}
