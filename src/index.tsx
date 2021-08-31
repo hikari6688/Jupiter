@@ -7,15 +7,14 @@ import './assets/style/common.less';
 import './index.css';
 import { RouterMap } from './router/index';
 import * as serviceWorker from './serviceWorker';
-import { ThemeProvider } from './context/index';
-window.addEventListener('message', function (e) {
-  console.log(e);
-});
+import { ThemeProvider, LangProvider } from './context/index';
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
-    <ThemeProvider>
-      <RouterMap />
-    </ThemeProvider>
+    <LangProvider>
+      <ThemeProvider>
+        <RouterMap />
+      </ThemeProvider>
+    </LangProvider>
   </ConfigProvider>,
   document.getElementById('root')
 );

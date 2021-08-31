@@ -1,6 +1,7 @@
 import React, { useState, createContext } from 'react';
-import ThemeContext from './context';
-import { ThemeEnum } from '../../config/enum'
+import { ThemeEnum } from '../../config/enum';
+
+const ThemeContext = createContext(null);
 const ThemeProvider = (props) => {
   const [theme, setTheme] = useState(ThemeEnum.dark);
   return (
@@ -9,4 +10,4 @@ const ThemeProvider = (props) => {
     </ThemeContext.Provider>
   );
 };
-export default ThemeProvider;
+export { ThemeContext, ThemeProvider };
