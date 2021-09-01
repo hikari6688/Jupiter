@@ -9,7 +9,7 @@ import { Title } from './Title/index';
 import { useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import style from './index.module.scss'
-import { getMapByPath, showedItem, getRouteByPath } from '../../util/router';
+import { beneath, getDisplay, getRouteByPath } from '../../util/router';
 const { SubMenu } = Menu;
 const MenuItem = Menu.Item;
 export const Sider = observer(() => {
@@ -19,7 +19,7 @@ export const Sider = observer(() => {
     }
     return menu.map((root) => {
       if (root.children) {
-        const r = showedItem(root.children);
+        const r = getDisplay(root.children);
         if (r && r.length) {
           return (
             <SubMenu
@@ -61,8 +61,8 @@ export const Sider = observer(() => {
   const [active, setActive] = useState([]);
   const makeStatus = () => {
     if (router.routes.length) {
-      const parent = getMapByPath(router.routes, location.pathname)[0] || {};
-      const current = getRouteByPath(router.routes, location.pathname)||{};
+      const parent = beneath(router.routes, location.pathname)[0];
+      const current = getRouteByPath(router.routes, location.pathname);
       setOpened([parent.path] || []);
       setActive([current.name] || []);
     }

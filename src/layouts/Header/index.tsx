@@ -13,7 +13,7 @@ const { Option } = Select;
 
 export const Header = observer(() => {
   const theme = useContext(ThemeContext);
-  const { t, setLang } = useContext(LangContext);
+  const { t, setLang, lang } = useContext(LangContext);
   const history = useHistory();
   const toggleCollapsed = () => {
     commonStore.setCollapsed();
@@ -46,7 +46,7 @@ export const Header = observer(() => {
         </Button>
       </div>
       <div className={style.rightWrap}>
-        <div className={style.theme}>
+        {/* <div className={style.theme}>
           <Select
             size="middle"
             defaultValue={theme.theme}
@@ -56,10 +56,11 @@ export const Header = observer(() => {
             <Option value={ThemeEnum.light}>浅色</Option>
             <Option value={ThemeEnum.dark}>深色</Option>
           </Select>
-        </div>
+        </div> */}
         <Dropdown overlay={menu} placement="bottomCenter" arrow>
           <div className={style.avatar}>
             <img src={avatar} alt="" />
+            <span>izumi</span>
           </div>
         </Dropdown>
       </div>

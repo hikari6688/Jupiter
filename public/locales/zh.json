@@ -4,6 +4,7 @@
   "切换到中文": "change to Chinese",
   "切换到英文": "change to English",
   "日文": "change to Japenese",
+  "react": "饭否{name}", 
   "methods": {
     "renderProps": "change language with render props",
     "hook": "change language with hook",

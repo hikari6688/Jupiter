@@ -1,7 +1,7 @@
 import { ComponentsMap } from './map';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { ROUTER_MAP } from './router.type';
+import { ROUTER_MAP } from './router';
 export const RouterMaker = (routes: ROUTER_MAP[]): React.Component => {
   const makeRoutes = (routes: ROUTER_MAP[]) => {
     return routes.map((i) => {

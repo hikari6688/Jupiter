@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import { ROUTER_MAP } from '../router/router.type';
+import { ROUTER_MAP } from '../router/router';
 
 class Router {
   @observable

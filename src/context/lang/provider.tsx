@@ -25,23 +25,24 @@ const LangProvider = (props: any) => {
   }, [lang]);
 
   const langMaker = (key: string, template?: {}) => {
+    /*
+     hello: '{msg} world {call}'
+     <p>{{ $t('message.hello', { msg: 'hello' ,call:'xxxx'}) }}</p>
+    */
     if (!json) return;
     const item = json[key];
     if (template) {
       const keys = Object.keys(template);
-      keys.forEach(item=>{
-        // item.replace()
-      })
+      keys.forEach((i) => {
+        const reg = new RegExp(`\{${i}\}?`, 'x');
+        const remake = item.replace(reg, template[i]);
+        return remake;
+      });
     }
     return item;
-    // 支持如下写法
-    //  message: {
-    //   hello: '{msg} world {call}'
-    // }
-    // <p>{{ $t('message.hello', { msg: 'hello' ,call:'bitxh'}) }}</p>
   };
   return (
-    <LangContext.Provider value={{ t: langMaker, setLang }}>
+    <LangContext.Provider value={{ t: langMaker, setLang, lang }}>
       {props.children}
     </LangContext.Provider>
   );
