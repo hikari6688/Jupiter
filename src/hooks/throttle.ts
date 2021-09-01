@@ -1,5 +1,5 @@
-import { useRef, useState, useCallback, useEffect } from 'react';
-function useThrottle(fn:Function, delay, dep = []) {
+import { useRef, useCallback, useEffect } from 'react';
+function useThrottle(fn: Function, delay: number = 1000, dep = []) {
   const { current } = useRef({ fn, timer: null });
   useEffect(
     function () {
@@ -7,7 +7,6 @@ function useThrottle(fn:Function, delay, dep = []) {
     },
     [fn]
   );
-
   return useCallback(function f(...args) {
     if (!current.timer) {
       current.timer = setTimeout(() => {

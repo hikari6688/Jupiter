@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 function useFullScreen(element: any) {
-	console.log(element)
   const [isFullscreen, setFullscreen] = useState(false);
   const launchFullscreen = () => {
     if (element.requestFullscreen) {

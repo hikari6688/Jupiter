@@ -1,5 +1,5 @@
 import { useRef, useCallback, useEffect } from 'react';
-function useDebounce(fn, delay: number, dep?: []) {
+function useDebounce(fn:Function, delay: number, dep?: []) {
   const { current } = useRef({ fn, timer: null });
   useEffect(
     function () {

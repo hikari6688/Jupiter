@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Button, Input, Tooltip } from 'antd';
 import { AuthWrap } from '../../../components/AuthWrap/index.jsx';
 import { STable } from '../../../components/Table';
-import { useTranslation } from 'react-i18next';
 import {
   useLocalStorage,
   useDebounce,
