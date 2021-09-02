@@ -1,22 +1,23 @@
-.title{
-  background-color:#081526;
+.title {
+  // background-color:#081526;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  .icon{
-    img{
+  .icon {
+    img {
       width: 40px;
       height: 40px;
       object-fit: cover;
       display: block;
     }
   }
-  .text{
+  .text {
     color: white;
     font-weight: 500;
     margin-left: 10px;
     font-size: 20px;
+    font-weight: 600;
     // transition: 0.3s;
   }
 }

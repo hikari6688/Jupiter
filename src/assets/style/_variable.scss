@@ -1,0 +1,10 @@
+[data-theme='light'] {
+  // 亮色主题颜色全局变量
+  --bgc: #fff;
+  --text: #fff;
+}
+[data-theme='dark'] {
+  // 暗色主题颜色全局变量
+  --bgc: #000;
+  --text: #000;
+}

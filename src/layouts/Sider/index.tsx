@@ -8,12 +8,14 @@ import { router } from '../../store/router.store';
 import { Title } from './Title/index';
 import { useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import style from './index.module.scss'
+import style from './index.module.scss';
 import { beneath, getDisplay, getRouteByPath } from '../../util/router';
+import { ROUTER_MAP } from '../../router/router';
 const { SubMenu } = Menu;
 const MenuItem = Menu.Item;
+
 export const Sider = observer(() => {
-  const makeMenuTree = function (menu) {
+  const makeMenuTree = function (menu: ROUTER_MAP[]) {
     if (!menu || !Array.isArray(menu) || !menu.length) {
       return null;
     }
@@ -88,7 +90,7 @@ export const Sider = observer(() => {
 
   return (
     <div
-      className={ style.side }
+      className={style.side}
       style={{
         width: commonStore.isCollapsed ? SIDEBAR_WIDTH[1] : SIDEBAR_WIDTH[0],
       }}

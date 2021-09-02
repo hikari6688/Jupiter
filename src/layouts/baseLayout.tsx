@@ -7,8 +7,8 @@ import { ThemeContext } from '../context/index';
 export const BaseLayout = () => {
   const theme = useContext(ThemeContext);
   return (
-    <div className={`${style.baseLayout}`} data-theme={theme.theme}>
-      <div className={style.left}>
+    <div className={style.baseLayout} data-theme={theme.theme}>
+      <div className={`${style.left}`}>
         <Sider />
       </div>
       <div className={style.right}>
