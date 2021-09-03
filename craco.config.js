@@ -55,12 +55,12 @@ module.exports = {
     devServer: {
       proxy: {
         [REACT_APP_API_ROOT]: {
-          target: REACT_APP_API_HOST, 
+          target: REACT_APP_API_HOST,
           // secure: false,
           // ws: false,
           // changeOrigin: true,
           pathRewrite: {
-            [`^${REACT_APP_API_ROOT}`]: '', 
+            [`^${REACT_APP_API_ROOT}`]: '',
           },
         },
       },

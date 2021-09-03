@@ -19,7 +19,7 @@ import { ThemeEnum } from '../../config/enum';
 
 const { Option } = Select;
 export const Header = observer(() => {
-  const { t, setLang, lang } = useContext(LangContext);
+  const { setLang, lang  } = useContext(LangContext);
   const { theme, setTheme } = useContext(ThemeContext);
   const history = useHistory();
   const toggleCollapsed = () => {
@@ -46,6 +46,7 @@ export const Header = observer(() => {
       </Menu.Item>
     </Menu>
   );
+  console.log('change lang')
   return (
     <div className={style.header} style={{ height: HEADER_HEIGHT }}>
       <div className={style.btn}>
@@ -70,7 +71,7 @@ export const Header = observer(() => {
         </Select>
         <Select
           defaultValue={theme}
-          onChange={(v) => {
+          onChange={(v: ThemeEnum) => {
             setTheme(v);
           }}
           size="small"

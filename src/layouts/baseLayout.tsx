@@ -3,7 +3,7 @@ import { Header } from './Header/index';
 import { Main } from './Main/index';
 import { Sider } from './Sider/index';
 import style from './baseLayout.module.scss';
-import { ThemeContext } from '../context/index';
+import { ThemeContext } from 'src/context/index';
 export const BaseLayout = () => {
   const theme = useContext(ThemeContext);
   return (

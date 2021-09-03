@@ -2,7 +2,13 @@
   transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
   user-select: none;
   :global {
+    * {
+      color: var(--text);
+    }
     .ant-menu {
+      background-color: var(--bgc);
+    }
+    .ant-menu-dark .ant-menu-inline.ant-menu-sub {
       background-color: var(--bgc);
     }
     span {

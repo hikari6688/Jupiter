@@ -10,42 +10,37 @@ import {
   useLoop,
 } from '../../../hooks/index';
 import { ThemeContext } from '../../../context/index';
-interface resType {
-  code: number;
-  data: {
-    current: number;
-    total: number;
-    result: [];
-  };
-}
-const App = () => {
-  const columns = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-      width: 120,
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (address) => (
-        <Tooltip placement="topLeft" title={address}>
-          {address}
-        </Tooltip>
-      ),
-    },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: '住址',
-      dataIndex: 'address',
-      key: 'address',
-    },
-  ];
 
+const columns = [
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    search: {
+      type: 'input',
+    },
+    width: 120,
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (address) => (
+      <Tooltip placement="topLeft" title={address}>
+        {address}
+      </Tooltip>
+    ),
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+  },
+  {
+    title: '住址',
+    dataIndex: 'address',
+    search: {
+      type: 'input',
+    },
+  },
+];
+const App = () => {
   //表格搜索配置
 
   const [user, setUser] = useLocalStorage('user');
@@ -108,8 +103,9 @@ const App = () => {
     };
   }
 
-  const data = (pagination): Promise<any> => {
-    return getList(pagination).then((r: any) => {
+  const data = (pagination, query): Promise<any> => {
+    console.log({ ...pagination, ...query })
+    return getList({ ...pagination, ...query }).then((r: any) => {
       return r.data;
     });
   };
@@ -137,4 +133,4 @@ const App = () => {
     </div>
   );
 };
-export default App
+export default App;

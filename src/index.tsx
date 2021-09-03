@@ -11,7 +11,7 @@ import { ThemeProvider, LangProvider } from './context/index';
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <ThemeProvider>
-      <LangProvider>
+      <LangProvider nam='22233'>
         <RouterMap />
       </LangProvider>
     </ThemeProvider>
