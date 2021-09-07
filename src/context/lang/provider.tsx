@@ -1,6 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react';
 import axios from 'axios';
-import { lan } from '../../../types/lang';
+import { lan } from './lang.type';
 
 const LangContext = createContext(null);
 const nl = navigator.language.toLowerCase();

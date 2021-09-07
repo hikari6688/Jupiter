@@ -1,33 +1,22 @@
 import React from 'react';
-import { Table, Form, Input, Button, Select } from 'antd';
-import { TableProps, ColumnsType } from 'antd/lib/table';
+import { Table } from 'antd';
 import { useEffect, useState } from 'react';
+import { Pagination, BaseTableProps, Sin } from './table.type';
 import style from './index.module.scss';
 import SearchForm from './SearchForm/index';
-interface Pagination {
-  total: number;
-  pageSize: number;
-  current: number;
-}
-
-interface BaseTableProps<T> extends TableProps<T> {
-  data: (pagination, query) => Promise<T>; //数据源
-  onChange?: (pagination: Pagination, query) => void;
-  searchBtn?: boolean;
-  resetBtn?: boolean;
-}
 
 export const STable = (props: BaseTableProps<any>) => {
-  const { columns } = props;
+  const { columns, onChange } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const [sorceData, setSorceData] = useState<[]>([]);
-  const [query, setQuery] = useState({});
-  const [page, setPage] = useState({
+  const [query, setQuery] = useState<Sin>({});
+  const [page, setPage] = useState<Pagination>({
     total: 0,
     pageSize: 10,
     current: 1,
   });
-  const getData = async (init?: boolean) => {
+
+  const getData = async (init?: boolean): Promise<void> => {
     setLoading(true);
     try {
       init && setPage({ ...page, current: 1 });
@@ -45,12 +34,12 @@ export const STable = (props: BaseTableProps<any>) => {
     getData();
   }, [page.current, page.pageSize]);
 
-  const pageChange = (pagination: Pagination, query) => {
+  const pageChange = (pagination: Pagination, query: Sin) => {
     setPage({ ...pagination });
-    props.onChange && props.onChange(page, query);
+    onChange && onChange(page, query);
   };
 
-  const queryMaker = (query) => {
+  const queryMaker = (query: Sin) => {
     query && setQuery(query);
   };
 
