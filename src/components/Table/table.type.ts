@@ -4,10 +4,15 @@ export type Sin = { [prop: string]: any } | undefined;
 
 export type SearchType = 'input' | 'select' | 'tree' | 'date';
 
+export interface Isearch{
+  
+  [rest:string]:any;
+}
+
 export interface SearchConf {
   dataIndex: string;
   type: SearchType;
-  search: Sin;
+  search:Isearch;
   [rest: string]: any;
 }
 
@@ -24,11 +29,6 @@ export interface BaseTableProps<T> extends TableProps<T> {
   resetBtn?: boolean;
   columns?:IColumn[]
 }
-
-// export interface IColumn<RecordType = unknown> extends ColumnType<RecordType> {
-//   search?: { [key: string]: any };
-//   children?: IColumn<RecordType>;
-// }
 
 export interface Column<RecordType> extends ColumnType<RecordType> {
   search?: { [key: string]: any };

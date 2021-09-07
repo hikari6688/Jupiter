@@ -1,12 +1,20 @@
 import React from 'react';
 import { Input, Select, DatePicker, TreeSelect } from 'antd';
+import { SearchType } from '../../table.type';
 const { RangePicker } = DatePicker;
-type SearchType = 'input' | 'select' | 'tree' | 'date';
+
+interface Iprops {
+  search: {
+    type: SearchType;
+    treeData?: [];
+  };
+  [rest: string]: any;
+}
 
 //支持文本 、下拉、 树、时间选择器
-const SItem = (prop) => {
-  const { conf, ...rest } = prop;
-  const type = conf.type;
+const SItem = (props: Iprops) => {
+  const { search, ...rest } = props;
+  const type = search.type;
   switch (type) {
     case 'input':
       return <Input {...rest} />;
@@ -18,7 +26,7 @@ const SItem = (prop) => {
       return (
         <TreeSelect
           dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-          treeData={conf.treeData}
+          treeData={search.treeData}
           treeDefaultExpandAll
           {...rest}
         />

@@ -41,7 +41,7 @@ const SearchForm = (props: propType) => {
             label={item.title}
             key={item.dataIndex as string}
           >
-            <SItem conf={item.search} />
+            <SItem search={item.search} />
           </Form.Item>
         );
       })}
