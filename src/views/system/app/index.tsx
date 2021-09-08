@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Button, Input, Tooltip } from 'antd';
 import { AuthWrap } from '../../../components/AuthWrap/index.jsx';
 import { STable } from '../../../components/Table';
+import { IColumn} from '../../../components/Table/table.type';
 import {
   useLocalStorage,
   useDebounce,
@@ -11,7 +12,7 @@ import {
 } from '../../../hooks/index';
 import { ThemeContext } from '../../../context/index';
 
-const columns = [
+const columns: IColumn<any>[] = [
   {
     title: '姓名',
     dataIndex: 'name',
@@ -104,7 +105,7 @@ const App = () => {
   }
 
   const data = (pagination, query): Promise<any> => {
-    console.log({ ...pagination, ...query })
+    console.log({ ...pagination, ...query });
     return getList({ ...pagination, ...query }).then((r: any) => {
       return r.data;
     });

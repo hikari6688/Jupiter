@@ -1,13 +1,10 @@
 import React from 'react';
 import { Input, Select, DatePicker, TreeSelect } from 'antd';
-import { SearchType } from '../../table.type';
+import { SearchType, Isearch } from '../../table.type';
 const { RangePicker } = DatePicker;
 
 interface Iprops {
-  search: {
-    type: SearchType;
-    treeData?: [];
-  };
+  search: Isearch;
   [rest: string]: any;
 }
 

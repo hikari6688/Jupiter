@@ -5,15 +5,9 @@ export type Sin = { [prop: string]: any } | undefined;
 export type SearchType = 'input' | 'select' | 'tree' | 'date';
 
 export interface Isearch{
-  
+  type:SearchType;
+  treeData?:[];
   [rest:string]:any;
-}
-
-export interface SearchConf {
-  dataIndex: string;
-  type: SearchType;
-  search:Isearch;
-  [rest: string]: any;
 }
 
 export interface Pagination {
@@ -27,11 +21,11 @@ export interface BaseTableProps<T> extends TableProps<T> {
   onChange?: (pagination: Pagination, query: Sin) => void;
   searchBtn?: boolean;
   resetBtn?: boolean;
-  columns?:IColumn[]
+  columns:IColumn[]
 }
 
 export interface Column<RecordType> extends ColumnType<RecordType> {
-  search?: { [key: string]: any };
+  search?: Isearch;
 }
 
 export interface ColumnGroupType<RecordType>
