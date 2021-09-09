@@ -65,8 +65,8 @@ export const Sider = observer(() => {
     if (router.routes.length) {
       const parent = beneath(router.routes, location.pathname)[0];
       const current = getRouteByPath(router.routes, location.pathname);
-      setOpened([parent.path] || []);
-      setActive([current.name] || []);
+      parent&&setOpened([parent.path] || []);
+      current&&setActive([current.name] || []);
     }
   };
   useEffect(() => {
