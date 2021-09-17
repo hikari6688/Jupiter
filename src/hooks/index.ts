@@ -1,8 +1,8 @@
-import localStorage from './localStorage';
-import debounce from './debounce'
-import throttle from './throttle'
-import modal from './modal'
-import fullScreen from './fullScreen';
+import localStorage from './useLocalStorage';
+import debounce from './useDebounce'
+import throttle from './useThrottle'
+import modal from './useModal'
+import fullScreen from './useFullScreen';
 import useLoop$ from './useLoop';
 export const useLocalStorage = localStorage;
 export const useDebounce = debounce;

@@ -43,7 +43,6 @@ const columns: IColumn<any>[] = [
 ];
 const App = () => {
   //表格搜索配置
-
   const [user, setUser] = useLocalStorage('user');
   const [value, setValue] = useState();
   const theme = useContext(ThemeContext);
