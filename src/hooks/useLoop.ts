@@ -3,7 +3,7 @@ function useLoop(fn: Function, delay: number = 1000) {
   let timer = null;
   let count = 0;
   const _this = this;
-  const make = (...args: []): void => {
+  const run = (...args: []): void => {
     if (f) {
       fn.apply(_this, args);
       f = false;
@@ -14,9 +14,9 @@ function useLoop(fn: Function, delay: number = 1000) {
       console.log(count);
     }, delay);
   };
-  const kill = (): void => {
+  const stop = (): void => {
     clearInterval(timer);
   };
-  return [make, kill] as const;
+  return [run, stop] as const;
 }
 export default useLoop;
