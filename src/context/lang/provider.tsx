@@ -1,21 +1,21 @@
 import React, { useState, createContext, useEffect } from 'react';
 import axios from 'axios';
-import { lan } from './lang.type';
+import { lan as Tlan } from './lang.type';
 
 const LangContext = createContext(null);
-const nl = navigator.language.toLowerCase();
+const lan = navigator.language.toLowerCase();
 function parseLang(lang: string) {
   try {
     if (lang.includes('-')) return lang.split('-')[0];
     return lang;
   } catch (error) {
-    return 'zh';
+    return 'en';
   }
 }
 
 const LangProvider = (props: any) => {
-  const _lang: lan = parseLang(nl) as lan;
-  const [lang, setLang] = useState<lan>(_lang);
+  const _lang = parseLang(lan) as Tlan;
+  const [lang, setLang] = useState<Tlan>(_lang);
   const [json, setJson] = useState<{}>();
   useEffect(() => {
     axios.get(`/locales/${lang}.json`).then((r) => {

@@ -8,10 +8,12 @@ import './index.css';
 import { RouterMap } from './router/index';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider, LangProvider } from './context/index';
+
+
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <ThemeProvider>
-      <LangProvider nam='22233'>
+      <LangProvider>
         <RouterMap />
       </LangProvider>
     </ThemeProvider>

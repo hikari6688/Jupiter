@@ -46,7 +46,6 @@ export const Header = observer(() => {
       </Menu.Item>
     </Menu>
   );
-  console.log('change lang')
   return (
     <div className={style.header} style={{ height: HEADER_HEIGHT }}>
       <div className={style.btn}>

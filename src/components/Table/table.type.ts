@@ -1,14 +1,8 @@
 import { TableProps, ColumnType } from 'antd/lib/table';
 
-export type Sin = { [prop: string]: any } | undefined;
+export type TSearchObject = { [prop: string]: any } | undefined;
 
-export type SearchType = 'input' | 'select' | 'tree' | 'date';
-
-export interface Isearch{
-  type:SearchType;
-  treeData?:[];
-  [rest:string]:any;
-}
+export type SearchType = 'input' | 'select' | 'tree' | 'date' | 'range';
 
 export interface Pagination {
   total?: number;
@@ -17,15 +11,15 @@ export interface Pagination {
 }
 
 export interface BaseTableProps<T> extends TableProps<T> {
-  data: (pagination: Pagination, query: Sin) => Promise<T>;
-  onChange?: (pagination: Pagination, query: Sin) => void;
+  data: (pagination: Pagination, query: TSearchObject) => Promise<T>;
+  onChange?: (pagination: Pagination, query: TSearchObject) => void;
   searchBtn?: boolean;
   resetBtn?: boolean;
-  columns:IColumn[]
+  columns: IColumn[];
 }
 
 export interface Column<RecordType> extends ColumnType<RecordType> {
-  search?: Isearch;
+  searchType?: SearchType;
 }
 
 export interface ColumnGroupType<RecordType>
@@ -33,10 +27,9 @@ export interface ColumnGroupType<RecordType>
   children: Column<RecordType>;
 }
 
-export declare type IColumn<RecordType = unknown> = (
+export declare type IColumn<RecordType = unknown> =
   | ColumnGroupType<RecordType>
-  | Column<RecordType>
-);
+  | Column<RecordType>;
 
 //serchFrom
 

@@ -1,30 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SItem from './FormItem';
 import { Form, Button, Space } from 'antd';
-import { Sin, IColumn, Column } from '../table.type';
+import { TSearchObject, IColumn, Column } from '../table.type';
 
-interface propType {
-  columns: IColumn[];
-  queryMaker: (query: Sin) => void;
-  getData: (init?: boolean) => Promise<void>;
+interface ISearchForm {
+  columns: IColumn[]; //表头和字段配置
+  setParams: (query: TSearchObject) => void; //设置请求参数
+  getTableData?: (init?: boolean) => Promise<void>; //获取table数据
 }
 
-const SearchForm = (props: propType) => {
-  const { columns, queryMaker, getData } = props;
+const SearchForm = (props: ISearchForm) => {
+  const { columns, setParams } = props;
   const [form] = Form.useForm();
-  const search = columns.filter((item) => {
-    return item.search;
+  const searchCols = columns.filter((item) => {
+    return item.searchType;
   });
 
   const submit = (): void => {
-    queryMaker(form.getFieldsValue());
-    getData(true);
+    const data = form.getFieldsValue();
+    setParams(data);
   };
 
   const reset = (): void => {
     form.resetFields();
-    queryMaker(null);
-    getData(true);
+    setParams({ _reset: true });
   };
 
   const layout = {
@@ -34,14 +33,14 @@ const SearchForm = (props: propType) => {
 
   return (
     <Form {...layout} layout="inline" form={form}>
-      {(search as Column<any>[]).map((item) => {
+      {(searchCols as Column<IColumn>[]).map((item) => {
         return (
           <Form.Item
             name={item.dataIndex}
             label={item.title}
             key={item.dataIndex as string}
           >
-            <SItem search={item.search} />
+            <SItem searchType={item.searchType} />
           </Form.Item>
         );
       })}
