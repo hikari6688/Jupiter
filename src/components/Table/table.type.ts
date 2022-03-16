@@ -9,7 +9,6 @@ export interface Pagination {
   pageSize: number;
   current: number;
 }
-
 export interface BaseTableProps<T> extends TableProps<T> {
   data: (pagination: Pagination, query: TSearchObject) => Promise<T>;
   onChange?: (pagination: Pagination, query: TSearchObject) => void;
@@ -20,6 +19,9 @@ export interface BaseTableProps<T> extends TableProps<T> {
 
 export interface Column<RecordType> extends ColumnType<RecordType> {
   searchType?: SearchType;
+  searchWidth?:number, 
+  dicData?: { [dicItem: string]: any }[];
+  dicKey?:string
 }
 
 export interface ColumnGroupType<RecordType>

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'antd';
-interface modalState {
-  title: string;
-  content: any;
-}
+import { type } from 'os';
+// type modalState = [string, any];
 
 interface ModalProps {
   onOk?: () => void | undefined;
   onCancel?: () => void | undefined;
+  [reat:string]:any
 }
-const useModal = ({ title, content }: modalState) => {
+const useModal = (title) => {
   const [visible, setVisible] = useState<boolean>(false);
   const CustomModal = (props: ModalProps) => {
     const onOk = () => {
@@ -21,8 +20,8 @@ const useModal = ({ title, content }: modalState) => {
       onCancel ? onCancel() : setVisible(false);
     };
     return (
-      <Modal title={title} visible={visible} onOk={onOk} onCancel={onCancel}>
-        {content}
+      <Modal title={ title } visible={visible} onOk={onOk} onCancel={onCancel}>
+        { props.children }
       </Modal>
     );
   };

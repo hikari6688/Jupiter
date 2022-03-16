@@ -1,29 +1,31 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Table } from 'antd';
 import { useEffect, useState, useReducer } from 'react';
 import { Pagination, BaseTableProps, TSearchObject } from './table.type';
+import { useModal } from '../../hooks';
 import style from './index.module.scss';
 import SearchForm from './SearchForm/index';
 
 export const STable = (props: BaseTableProps<any>) => {
-  const { columns, data } = props;
+  const { columns, data, ...rest } = props;
   const [loading, setLoading] = useState<boolean>(false); //表格加载动画
   const [tableData, setTableData] = useState<[]>([]); //表格数据源
   const [params, setParams] = useState<TSearchObject>({}); //搜索参数
-
+  const ovCol = useRef([]);
   const [page, setPage] = useState<Pagination>({
-    //分页参数
     total: 0,
     pageSize: 10,
     current: 1,
   });
-
+  const { setShow, CustomModal } = useModal('新增');
   const getTableData = async (): Promise<void> => {
     setLoading(true);
     try {
-      //点击重置时重置page参数
       const { _reset, ...restArgs } = params;
-      _reset && setPage({ ...page, current: 1 });
+      if (_reset) {
+        setPage({ ...page, current: 1 });
+        setParams({ _reset: false });
+      }
       const { total, result } = await data(page, restArgs);
       setPage({ ...page, total });
       setTableData(result);
@@ -39,13 +41,28 @@ export const STable = (props: BaseTableProps<any>) => {
     getTableData();
   }, [page.current, page.pageSize, params]);
 
+  useEffect(() => {
+    const overWriteColumn = [
+      ...props.columns,
+      {
+        title: '操作',
+        key: 'action',
+        render: (text, record) => (
+          <>
+            <a onClick={ ()=>{ setShow(true) } }>Delete</a>
+          </>
+        ),
+      },
+    ];
+    ovCol.current = overWriteColumn;
+  }, []);
+
+  const onOk = () => {};
+  
   return (
     <div className={style.table_wrap}>
       <div className={style.search}>
-        <SearchForm
-          columns={columns}
-          setParams={setParams}
-        />
+        <SearchForm columns={columns} setParams={setParams} />
       </div>
       <div className={style.stage}>
         <Table
@@ -58,9 +75,11 @@ export const STable = (props: BaseTableProps<any>) => {
           onChange={(pagination: Pagination) => {
             setPage({ ...pagination });
           }}
-          {...props}
+          columns={ovCol.current}
+          {...rest}
         />
       </div>
+      <CustomModal onOk={onOk}  />
     </div>
   );
 };

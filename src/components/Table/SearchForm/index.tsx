@@ -9,15 +9,19 @@ interface ISearchForm {
   getTableData?: (init?: boolean) => Promise<void>; //获取table数据
 }
 
+
+
 const SearchForm = (props: ISearchForm) => {
   const { columns, setParams } = props;
   const [form] = Form.useForm();
+
   const searchCols = columns.filter((item) => {
     return item.searchType;
   });
 
   const submit = (): void => {
     const data = form.getFieldsValue();
+    console.log(data) 
     setParams(data);
   };
 
@@ -33,14 +37,17 @@ const SearchForm = (props: ISearchForm) => {
 
   return (
     <Form {...layout} layout="inline" form={form}>
-      {(searchCols as Column<IColumn>[]).map((item) => {
+      {(searchCols as Column<IColumn>[]).map((columnProp) => {
         return (
           <Form.Item
-            name={item.dataIndex}
-            label={item.title}
-            key={item.dataIndex as string}
+            name={columnProp.dataIndex}
+            label={columnProp.title}
+            key={columnProp.dataIndex as string}
+            style={{
+              width: `${columnProp.searchWidth || 200}px`,
+            }}
           >
-            <SItem searchType={item.searchType} />
+            <SItem {...columnProp} />
           </Form.Item>
         );
       })}

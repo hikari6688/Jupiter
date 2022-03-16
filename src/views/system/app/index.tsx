@@ -9,8 +9,10 @@ const columns: IColumn<any>[] = [
     title: '姓名',
     dataIndex: 'name',
     searchType: 'input',
-    width: 120,
-    ellipsis: true,
+    width: 200,
+    ellipsis: {
+      showTitle: true,
+    },
   },
   {
     title: '年龄',
@@ -21,6 +23,19 @@ const columns: IColumn<any>[] = [
     dataIndex: 'address',
     searchType: 'input',
   },
+  {
+    title: '类型',
+    dataIndex: 'type',
+    searchType: 'select',
+    dicKey:'api'
+    // dicData: [
+    //   {
+    //     label: '测试',
+    //     value: 1,
+    //   },
+    // ],
+  },
+
 ];
 const App = () => {
   //表格搜索配置
@@ -65,11 +80,9 @@ const App = () => {
       }, 1000);
     });
   };
-  const data = (pagination, query): Promise<any> => {
-    // console.log({ ...pagination, ...query });
-    return getList({ ...pagination, ...query }).then((r: any) => {
-      return r.data;
-    });
+  const data =  async (pagination, query): Promise<any> => {
+    const r = await getList({ ...pagination, ...query }) as any;
+    return r.data;
   };
   return (
     <div>
