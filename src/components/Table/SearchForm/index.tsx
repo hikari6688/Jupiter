@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import SItem from './FormItem';
+import FormItem from './FormItem';
 import { Form, Button, Space } from 'antd';
 import { TSearchObject, IColumn, Column } from '../table.type';
 
@@ -12,8 +12,9 @@ interface ISearchForm {
 const SearchForm = (props: ISearchForm) => {
   const { columns, setParams } = props;
   const [form] = Form.useForm();
+
   const searchCols = columns.filter((item) => {
-    return item.searchType;
+    return item.type;
   });
 
   const submit = (): void => {
@@ -32,15 +33,18 @@ const SearchForm = (props: ISearchForm) => {
   };
 
   return (
-    <Form {...layout} layout="inline" form={form}>
-      {(searchCols as Column<IColumn>[]).map((item) => {
+    <Form {...layout} layout="inline" form={form} >
+      {(searchCols as Column<IColumn>[]).map((columnProp) => {
         return (
           <Form.Item
-            name={item.dataIndex}
-            label={item.title}
-            key={item.dataIndex as string}
+            name={columnProp.dataIndex}
+            label={columnProp.title}
+            key={columnProp.dataIndex as string}
+            style={{
+              width: `${columnProp.searchWidth || 200}px`,
+            }}
           >
-            <SItem searchType={item.searchType} />
+            <FormItem {...columnProp} />
           </Form.Item>
         );
       })}

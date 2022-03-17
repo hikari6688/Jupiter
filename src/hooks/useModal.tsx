@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Modal } from 'antd';
-interface modalState {
-  title: string;
-  content: any;
-}
-
 interface ModalProps {
   onOk?: () => void | undefined;
   onCancel?: () => void | undefined;
+  [rest: string]: any;
 }
-const useModal = ({ title, content }: modalState) => {
+const useModal = (title: string) => {
   const [visible, setVisible] = useState<boolean>(false);
   const CustomModal = (props: ModalProps) => {
     const onOk = () => {
@@ -21,14 +17,20 @@ const useModal = ({ title, content }: modalState) => {
       onCancel ? onCancel() : setVisible(false);
     };
     return (
-      <Modal title={title} visible={visible} onOk={onOk} onCancel={onCancel}>
-        {content}
+      <Modal
+        width={1000}
+        title={title}
+        visible={visible}
+        onOk={onOk}
+        onCancel={onCancel}
+      >
+        {props.children}
       </Modal>
     );
   };
   const setShow = (status: boolean) => {
     setVisible(status);
   };
-  return { setShow, CustomModal };
+  return [setShow, CustomModal] as const;
 };
 export default useModal;

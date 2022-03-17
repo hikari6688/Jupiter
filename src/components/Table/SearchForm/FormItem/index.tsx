@@ -1,25 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input, Select, DatePicker, TreeSelect } from 'antd';
-import { SearchType} from '../../table.type';
 const { RangePicker } = DatePicker;
+const { Option } = Select;
 
-interface Iprops {
-  searchType: SearchType;
-  [rest: string]: any;
+interface IdicData {
+  label: string;
+  value: any;
 }
-
 //支持文本 、下拉、 树、时间选择器,时间范围选择器
-const SItem = (props: Iprops) => {
-  const { searchType, ...rest } = props;
-  switch (searchType) {
+const FormItem = (props) => {
+  const [asyncDicData, setAsyncDicData] = useState<IdicData[]>([]);
+  const {
+    type,
+    dicData,
+    dataIndex,
+    searchWidth,
+    editDisable,
+    dicKey,
+    inform,
+    ...rest
+  } = props;
+  useEffect(() => {
+    if (props.dicKey) {
+      //fetch...
+      setAsyncDicData([{ label: 'key测试', value: 'testkey' }]);
+    }
+  }, []);
+
+  switch (type) {
     case 'input':
       return <Input {...rest} />;
     case 'select':
-      return <Select {...rest} />;
+      return (
+        <Select showSearch {...rest}>
+          {dicData
+            ? dicData.map((dicItem) => {
+                return (
+                  <Option key={dicItem.value} value={dicItem.value}>
+                    {dicItem.label}
+                  </Option>
+                );
+              })
+            : props.dicKey &&
+              asyncDicData.map((dicItem) => {
+                return (
+                  <Option
+                    key={dicItem.value + Math.random()}
+                    value={dicItem.value}
+                  >
+                    {dicItem.label}
+                  </Option>
+                );
+              })}
+        </Select>
+      );
     case 'date':
-      return <DatePicker {...rest} />;
+      return <DatePicker style={{ width: '100%' }} {...rest} />;
     case 'range':
-      return <RangePicker {...rest} />;
+      return <RangePicker style={{ width: '100%' }} {...rest} />;
     case 'tree':
       return (
         <TreeSelect
@@ -29,8 +67,8 @@ const SItem = (props: Iprops) => {
         />
       );
     default:
-      break;
+      return null;
   }
 };
 
-export default SItem;
+export default FormItem;
