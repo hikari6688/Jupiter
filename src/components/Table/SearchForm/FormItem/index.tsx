@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input, Select, DatePicker, TreeSelect } from 'antd';
-import { Column } from '../../table.type';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
@@ -9,18 +8,26 @@ interface IdicData {
   value: any;
 }
 //支持文本 、下拉、 树、时间选择器,时间范围选择器
-const SItem = (props) => {
-  const { searchType, dicData, dataIndex, searchWidth, dicKey, ...rest } =
-    props;
-  const dicRefData = useRef([]);
+const FormItem = (props) => {
+  const [asyncDicData, setAsyncDicData] = useState<IdicData[]>([]);
+  const {
+    type,
+    dicData,
+    dataIndex,
+    searchWidth,
+    editDisable,
+    dicKey,
+    inform,
+    ...rest
+  } = props;
   useEffect(() => {
     if (props.dicKey) {
       //fetch...
-      dicRefData.current = [{ label: 'key测试', value: 'testkey' }];
+      setAsyncDicData([{ label: 'key测试', value: 'testkey' }]);
     }
   }, []);
 
-  switch (searchType) {
+  switch (type) {
     case 'input':
       return <Input {...rest} />;
     case 'select':
@@ -35,9 +42,12 @@ const SItem = (props) => {
                 );
               })
             : props.dicKey &&
-              dicRefData.current.map((dicItem) => {
+              asyncDicData.map((dicItem) => {
                 return (
-                  <Option key={dicItem.value} value={dicItem.value}>
+                  <Option
+                    key={dicItem.value + Math.random()}
+                    value={dicItem.value}
+                  >
                     {dicItem.label}
                   </Option>
                 );
@@ -45,9 +55,9 @@ const SItem = (props) => {
         </Select>
       );
     case 'date':
-      return <DatePicker {...rest} />;
+      return <DatePicker style={{ width: '100%' }} {...rest} />;
     case 'range':
-      return <RangePicker {...rest} />;
+      return <RangePicker style={{ width: '100%' }} {...rest} />;
     case 'tree':
       return (
         <TreeSelect
@@ -57,8 +67,8 @@ const SItem = (props) => {
         />
       );
     default:
-      break;
+      return null;
   }
 };
 
-export default SItem;
+export default FormItem;

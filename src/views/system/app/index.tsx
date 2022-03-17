@@ -4,11 +4,17 @@ import { AuthWrap } from '../../../components/AuthWrap/index.jsx';
 import { STable } from '../../../components/Table';
 import { IColumn } from '../../../components/Table/table.type';
 
+
+const formConf = {
+  labelCol:{span: 4}
+}
 const columns: IColumn<any>[] = [
   {
     title: '姓名',
     dataIndex: 'name',
-    searchType: 'input',
+    type: 'input',
+    inform: true, //是否作为表单配置项
+    editDisable: false, //编辑的时候不可编辑
     width: 200,
     ellipsis: {
       showTitle: true,
@@ -17,25 +23,28 @@ const columns: IColumn<any>[] = [
   {
     title: '年龄',
     dataIndex: 'age',
+    inform: true,
+    type: 'input',
+  },
+  {
+    title: '日期',
+    dataIndex: 'fixedDate',
+    inform: true,
+    type: 'date',
   },
   {
     title: '住址',
     dataIndex: 'address',
-    searchType: 'input',
+    type: 'input',
+    inform: true,
   },
   {
     title: '类型',
     dataIndex: 'type',
-    searchType: 'select',
-    dicKey:'api'
-    // dicData: [
-    //   {
-    //     label: '测试',
-    //     value: 1,
-    //   },
-    // ],
+    type: 'select',
+    dicKey: 'api',
+    inform: true,
   },
-
 ];
 const App = () => {
   //表格搜索配置
@@ -80,13 +89,35 @@ const App = () => {
       }, 1000);
     });
   };
-  const data =  async (pagination, query): Promise<any> => {
-    const r = await getList({ ...pagination, ...query }) as any;
+  const data = async (pagination, query): Promise<any> => {
+    const r = (await getList({ ...pagination, ...query })) as any;
     return r.data;
+  };
+  const beforeOpen = () => {};
+
+  const add = () => {};
+  const update = () => {};
+  const deleteData = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('');
+      }, 1000);
+    });
+  };
+  const del = async () => {
+    return await deleteData();
   };
   return (
     <div>
-      <STable data={data} columns={columns} />
+      <STable
+        data={data}
+        columns={columns}
+        beforeOpen={beforeOpen}
+        add={add}
+        update={update}
+        del={del}
+        formConf={formConf}
+      />
     </div>
   );
 };

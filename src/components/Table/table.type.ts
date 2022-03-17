@@ -15,17 +15,27 @@ export interface BaseTableProps<T> extends TableProps<T> {
   searchBtn?: boolean;
   resetBtn?: boolean;
   columns: IColumn[];
+  beforeOpen: () => void;
+  add: () => void;
+  del: () => Promise<any>;
+  update: () => void;
+  formConf?: { [arg: string]: any };
+  preview?: boolean; //是否作为图片预览
 }
 
 export interface Column<RecordType> extends ColumnType<RecordType> {
-  searchType?: SearchType;
-  searchWidth?:number, 
+  type?: SearchType;
+  searchWidth?: number;
   dicData?: { [dicItem: string]: any }[];
-  dicKey?:string
+  dicKey?: string;
+  inform?: boolean; //是否展示在表单中
+  editDisable?: boolean; //编辑的时候是否禁止
+  dataIndex?: string;
+  rules?: any[];
+  span?: number;
 }
 
-export interface ColumnGroupType<RecordType>
-  extends Omit<Column<RecordType>, 'dataIndex'> {
+export interface ColumnGroupType<RecordType> extends Column<RecordType> {
   children: Column<RecordType>;
 }
 
