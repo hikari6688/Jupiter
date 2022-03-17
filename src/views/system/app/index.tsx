@@ -8,6 +8,7 @@ import { IColumn } from '../../../components/Table/table.type';
 const formConf = {
   labelCol:{span: 4}
 }
+
 const columns: IColumn<any>[] = [
   {
     title: '姓名',

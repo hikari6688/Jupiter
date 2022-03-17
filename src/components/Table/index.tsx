@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Table,
-  Form,
-  Space,
-  Button,
-  Row,
-  Col,
-  Modal,
-  message,
-} from 'antd';
+import { Table, Form, Space, Button, Row, Col, Modal, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { Pagination, BaseTableProps, TSearchObject } from './table.type';
@@ -18,7 +9,8 @@ import SearchForm from './SearchForm/index';
 import FormItem from './SearchForm/FormItem';
 const { confirm } = Modal;
 export const STable = (props: BaseTableProps<any>) => {
-  const { columns, data, beforeOpen, add, update, del,formConf, ...rest } = props;
+  const { columns, data, beforeOpen, add, update, del, formConf, ...rest } =
+    props;
   const [loading, setLoading] = useState<boolean>(false); //表格加载动画
   const [tableData, setTableData] = useState<[]>([]); //表格数据源
   const [params, setParams] = useState<TSearchObject>({}); //搜索参数
@@ -134,7 +126,7 @@ export const STable = (props: BaseTableProps<any>) => {
           <Row>
             {columns.map((column) => {
               if (!column.inform) return null;
-              const {  dataIndex, title } = column;
+              const { dataIndex, title } = column;
               return (
                 <Col key={dataIndex} span={column.span || 12}>
                   <Form.Item label={title}>
