@@ -32,8 +32,10 @@ const SearchForm = (props: ISearchForm) => {
     wrapperCol: { span: 16 },
   };
 
+
+
   return (
-    <Form {...layout} layout="inline" form={form} >
+    <Form {...layout} layout="inline" form={form}>
       {(searchCols as Column<IColumn>[]).map((columnProp) => {
         return (
           <Form.Item
@@ -44,7 +46,7 @@ const SearchForm = (props: ISearchForm) => {
               width: `${columnProp.searchWidth || 200}px`,
             }}
           >
-            <FormItem {...columnProp} />
+            <FormItem {...columnProp}/>
           </Form.Item>
         );
       })}

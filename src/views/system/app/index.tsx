@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
-import { Button, Input, Tooltip } from 'antd';
-import { AuthWrap } from '../../../components/AuthWrap/index.jsx';
-import { STable } from '../../../components/Table';
+import React from 'react';
+import { useTable } from '../../../components/Table';
 import { IColumn } from '../../../components/Table/table.type';
 
-
 const formConf = {
-  labelCol:{span: 4}
-}
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
 
 const columns: IColumn<any>[] = [
   {
@@ -32,6 +30,7 @@ const columns: IColumn<any>[] = [
     dataIndex: 'fixedDate',
     inform: true,
     type: 'date',
+    format:"YYYY-MM-DD HH:mm",
   },
   {
     title: '住址',
@@ -45,9 +44,11 @@ const columns: IColumn<any>[] = [
     type: 'select',
     dicKey: 'api',
     inform: true,
+    // formRender: () => <a>222</a>,
   },
 ];
 const App = () => {
+  const [Table, form] = useTable();
   //表格搜索配置
   const getList = (params) => {
     return new Promise((resolve) => {
@@ -94,10 +95,26 @@ const App = () => {
     const r = (await getList({ ...pagination, ...query })) as any;
     return r.data;
   };
-  const beforeOpen = () => {};
-
-  const add = () => {};
-  const update = () => {};
+  const g = () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('');
+      }, 200);
+    });
+  };
+  const beforeOpen = async (record) => {
+    //do something
+    await g();
+    return Promise.resolve();
+  };
+  const add = async (d) => {
+    console.log(d)
+    await g();
+    return Promise.resolve();
+  };
+  const update = async (d) => {
+    console.log(form.getFieldsValue())
+  };
   const deleteData = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -110,15 +127,17 @@ const App = () => {
   };
   return (
     <div>
-      <STable
+      <Table
         data={data}
         columns={columns}
-        beforeOpen={beforeOpen}
+        formConf={formConf}
+        addBtn={true}
         add={add}
         update={update}
         del={del}
-        formConf={formConf}
+        beforeOpen={beforeOpen}
       />
+      ,
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Select, DatePicker, TreeSelect } from 'antd';
+import moment, { Moment } from 'moment';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
@@ -18,6 +19,8 @@ const FormItem = (props) => {
     editDisable,
     dicKey,
     inform,
+    // onChange,
+    formate,
     ...rest
   } = props;
   useEffect(() => {
@@ -26,6 +29,10 @@ const FormItem = (props) => {
       setAsyncDicData([{ label: 'key测试', value: 'testkey' }]);
     }
   }, []);
+
+  const formateDate = (dataIndex, formate) => {
+    console.log({ dataIndex, formate });
+  };
 
   switch (type) {
     case 'input':
@@ -55,9 +62,26 @@ const FormItem = (props) => {
         </Select>
       );
     case 'date':
-      return <DatePicker style={{ width: '100%' }} {...rest} />;
+      return (
+        <DatePicker
+          // onChange={(date: Moment, dateString: string) => {
+          //   formateDate(date,dateString) 
+            
+          // }}
+          style={{ width: '100%' }}
+          {...rest}
+        />
+      );
     case 'range':
-      return <RangePicker style={{ width: '100%' }} {...rest} />;
+      return (
+        <RangePicker
+          // onChange={(date: Moment, dateString: string) => {
+          //   console.log(222);
+          // }}
+          style={{ width: '100%' }}
+          {...rest}
+        />
+      );
     case 'tree':
       return (
         <TreeSelect

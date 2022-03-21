@@ -16,7 +16,7 @@ export const Title = observer(() => {
         className={style.text}
         style={{ display: commonStore.isCollapsed ? 'none' : '' }}
       >
-        <span>{t('title')}</span>
+        <span>{t(APPNAME)}</span>
       </div>
     </div>
   );
