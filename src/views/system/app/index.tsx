@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTable } from '../../../components/Table';
 import { IColumn } from '../../../components/Table/table.type';
-
+import moment from 'moment';
 const formConf = {
-  labelCol: { span: 8 },
+  labelCol: { span: 4 },
   wrapperCol: { span: 16 },
 };
 
@@ -18,6 +18,7 @@ const columns: IColumn<any>[] = [
     ellipsis: {
       showTitle: true,
     },
+    rules: [{ required: true, message: '请输入姓名' }],
   },
   {
     title: '年龄',
@@ -30,7 +31,16 @@ const columns: IColumn<any>[] = [
     dataIndex: 'fixedDate',
     inform: true,
     type: 'date',
-    format:"YYYY-MM-DD HH:mm",
+    format: 'YYYY-MM-DD',
+  },
+  {
+    title: '日期范围',
+    dataIndex: 'rangeDate',
+    type: 'range',
+    hide: true,
+    // searchWidth:400,
+    format: 'YYYY-MM-DD',
+    rangeKey: ['start', 'end'],
   },
   {
     title: '住址',
@@ -44,7 +54,6 @@ const columns: IColumn<any>[] = [
     type: 'select',
     dicKey: 'api',
     inform: true,
-    // formRender: () => <a>222</a>,
   },
 ];
 const App = () => {
@@ -64,24 +73,28 @@ const App = () => {
                 id: 1,
                 name: '胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌胡彦斌',
                 age: 32,
+                fixedDate: '2022-1-22',
                 address: '西湖区湖底公园1号',
               },
               {
                 id: 2,
                 name: '胡彦斌',
                 age: 32,
+                fixedDate: '2022-1-22',
                 address: '西湖区湖底公园1号',
               },
               {
                 id: '3',
                 name: '胡彦斌',
                 age: 32,
+                fixedDate: '2022-1-22',
                 address: '西湖区湖底公园1号',
               },
               {
                 id: '4',
                 name: '胡彦斌',
                 age: 32,
+                fixedDate: '2022-1-22',
                 address: '西湖区湖底公园1号',
               },
             ],
@@ -102,18 +115,21 @@ const App = () => {
       }, 200);
     });
   };
-  const beforeOpen = async (record) => {
+  const beforeOpen = async (type, record) => {
     //do something
+    if (type === 'edit') {
+      form.setFieldsValue({...record,fixedDate:moment(record.fixedDate, 'YYYY-MM-DD')});
+    }
     await g();
     return Promise.resolve();
   };
   const add = async (d) => {
-    console.log(d)
+    console.log(d);
     await g();
     return Promise.resolve();
   };
   const update = async (d) => {
-    console.log(form.getFieldsValue())
+    console.log(form.getFieldsValue());
   };
   const deleteData = () => {
     return new Promise((resolve, reject) => {
@@ -128,14 +144,14 @@ const App = () => {
   return (
     <div>
       <Table
-        data={data}
-        columns={columns}
-        formConf={formConf}
-        addBtn={true}
-        add={add}
-        update={update}
-        del={del}
-        beforeOpen={beforeOpen}
+        data={data} //数据源
+        columns={columns} //行数据
+        formConf={formConf} //表单布局
+        addBtn={true} //是否有新增按钮
+        add={add} // 新增modal点击确认的回调
+        update={update} //编辑modal点击确认的回调
+        del={del} //colmun删除的回调
+        beforeOpen={beforeOpen} //modal弹出前的回调
       />
       ,
     </div>

@@ -12,28 +12,31 @@ interface ISearchForm {
 const SearchForm = (props: ISearchForm) => {
   const { columns, setParams } = props;
   const [form] = Form.useForm();
-
   const searchCols = columns.filter((item) => {
     return item.type;
   });
-
   const submit = (): void => {
-    const data = form.getFieldsValue();
-    setParams(data);
+    const d = form.getFieldsValue();
+    for (const column of columns) {
+      if (column && column.type === 'date' && d[column.dataIndex]) {
+        d[column.dataIndex] = d[column.dataIndex].format(column.format);
+      }
+      if (column && column.type === 'range' && d[column.dataIndex]) {
+        d[column.rangeKey[0]] = d[column.dataIndex][0].format(column.format);
+        d[column.rangeKey[1]] = d[column.dataIndex][1].format(column.format);
+      }
+    }
+    console.log(d);
+    setParams(d);
   };
-
   const reset = (): void => {
     form.resetFields();
     setParams({ _reset: true });
   };
-
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
   };
-
-
-
   return (
     <Form {...layout} layout="inline" form={form}>
       {(searchCols as Column<IColumn>[]).map((columnProp) => {
@@ -43,10 +46,11 @@ const SearchForm = (props: ISearchForm) => {
             label={columnProp.title}
             key={columnProp.dataIndex as string}
             style={{
-              width: `${columnProp.searchWidth || 200}px`,
+              width: `${columnProp.searchWidth || 260}px`,
+              marginBottom: '12px',
             }}
           >
-            <FormItem {...columnProp}/>
+            <FormItem {...columnProp} />
           </Form.Item>
         );
       })}

@@ -8,7 +8,7 @@ interface IdicData {
   label: string;
   value: any;
 }
-//支持文本 、下拉、 树、时间选择器,时间范围选择器
+//支持文本 、下拉、 树、时间选择器,时间范围选择器,上传组件
 const FormItem = (props) => {
   const [asyncDicData, setAsyncDicData] = useState<IdicData[]>([]);
   const {
@@ -19,7 +19,6 @@ const FormItem = (props) => {
     editDisable,
     dicKey,
     inform,
-    // onChange,
     formate,
     ...rest
   } = props;
@@ -29,10 +28,6 @@ const FormItem = (props) => {
       setAsyncDicData([{ label: 'key测试', value: 'testkey' }]);
     }
   }, []);
-
-  const formateDate = (dataIndex, formate) => {
-    console.log({ dataIndex, formate });
-  };
 
   switch (type) {
     case 'input':
@@ -64,10 +59,6 @@ const FormItem = (props) => {
     case 'date':
       return (
         <DatePicker
-          // onChange={(date: Moment, dateString: string) => {
-          //   formateDate(date,dateString) 
-            
-          // }}
           style={{ width: '100%' }}
           {...rest}
         />
@@ -75,9 +66,6 @@ const FormItem = (props) => {
     case 'range':
       return (
         <RangePicker
-          // onChange={(date: Moment, dateString: string) => {
-          //   console.log(222);
-          // }}
           style={{ width: '100%' }}
           {...rest}
         />

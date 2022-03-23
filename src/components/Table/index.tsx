@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Table, Form, Space, Button, Row, Col, Modal, message } from 'antd';
 import moment, { Moment } from 'moment';
 import {
@@ -13,7 +13,7 @@ import style from './index.module.scss';
 import SearchForm from './SearchForm/index';
 import FormItem from './SearchForm/FormItem';
 const { confirm } = Modal;
-type mode = 'edit' | 'add';
+type modalType = 'edit' | 'add';
 export const useTable = () => {
   const [form] = Form.useForm();
   const STable = (props: BaseTableProps<any>) => {
@@ -22,7 +22,7 @@ export const useTable = () => {
     const [loading, setLoading] = useState<boolean>(false); //表格加载动画
     const [tableData, setTableData] = useState<[]>([]); //表格数据源
     const [params, setParams] = useState<TSearchObject>({}); //搜索参数
-    const [formMode, setFormMode] = useState<mode>('edit'); //外部判断新增还是编辑
+    const modalType: { current: modalType } = useRef('edit');
     const [page, setPage] = useState<Pagination>({
       total: 0,
       pageSize: 10,
@@ -66,8 +66,8 @@ export const useTable = () => {
                 icon={<EditOutlined />}
                 onClick={async () => {
                   setTitle('编辑');
-                  setFormMode('edit');
-                  if (beforeOpen) await beforeOpen(record);
+                  modalType.current = 'edit';
+                  if (beforeOpen) await beforeOpen('edit', record);
                   setShow(true);
                 }}
               >
@@ -75,7 +75,7 @@ export const useTable = () => {
               </Button>
               <Button
                 onClick={() => {
-                  showPromiseConfirm();
+                  showPromiseConfirm(record);
                 }}
                 type="primary"
                 danger
@@ -91,40 +91,61 @@ export const useTable = () => {
     };
 
     const onOk = async () => {
-      const d = form.getFieldsValue();
-      for (const column of columns) {
-        if (column.type === 'date') {
-          d[column.dataIndex] = d[column.dataIndex].format(column.format);
+      try {
+        await form.validateFields();
+        if (props.onOk) {
+          const d = form.getFieldsValue();
+          const formMode = modalType.current;
+          for (const column of columns) {
+            if (column && column.type === 'date' && d[column.dataIndex]) {
+              d[column.dataIndex] = d[column.dataIndex].format(column.format);
+            }
+          }
+          switch (formMode) {
+            case 'add':
+              await props.add(d);
+              message.success('新增成功!');
+              form.resetFields();
+              setShow(false);
+              break;
+            case 'edit':
+              try {
+                await props.update(d);
+                message.success('更新成功!');
+                form.resetFields();
+                setShow(false);
+              } catch (error) {
+                message.success(error);
+              }
+              break;
+            default:
+              await props.onOk(d);
+              message.success('操作成功!');
+              form.resetFields();
+              setShow(false);
+              break;
+          }
+        } else {
+          setShow(false);
         }
-      }
-
-      switch (formMode) {
-        case 'add':
-          await props.add(d);
-          message.success('新增成功!');
-          break;
-        case 'edit':
-          await props.update(d);
-          message.success('更新成功!');
-          break;
-        default:
-          await props.onOk(d);
-          message.success('操作成功!');
-          break;
-      }
-      setShow(false);
+      } catch (error) {}
     };
     const onCancel = async () => {
-      await props.onCancel();
-      setShow(false);
+      form.resetFields();
+      if (props.onCancel) {
+        await props.onCancel();
+        setShow(false);
+      } else {
+        setShow(false);
+      }
     };
-    const showPromiseConfirm = () => {
+    const showPromiseConfirm = (record) => {
       confirm({
         title: '是否确认删除该数据?',
         icon: <ExclamationCircleOutlined />,
         onOk: async () => {
           try {
-            await del();
+            await del(record);
             message.success('数据删除成功!');
             return Promise.resolve();
           } catch (error) {
@@ -139,9 +160,11 @@ export const useTable = () => {
       <div className={style.table_wrap}>
         <div className={style.handel}>
           <Button
-            onClick={() => {
+            onClick={async () => {
               setTitle('新增');
-              setFormMode('add');
+              modalType.current = 'add';
+              form.resetFields();
+              if (beforeOpen) await beforeOpen('add');
               setShow(true);
             }}
             type="primary"
@@ -164,15 +187,15 @@ export const useTable = () => {
             onChange={(pagination: Pagination) => {
               setPage({ ...pagination });
             }}
-            columns={props.columns.concat(crud())}
+            columns={props.columns
+              .filter((column) => {
+                return !column.hide;
+              })
+              .concat(crud())}
             {...rest}
           />
         </div>
-        <CustomModal
-          onOk={onOk}
-          onCancel={props.onCancel ? onCancel : undefined}
-          form={form}
-        >
+        <CustomModal onOk={onOk} onCancel={onCancel} form={form}>
           <Form
             form={form}
             autoComplete="off"
