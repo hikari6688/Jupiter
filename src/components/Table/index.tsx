@@ -17,7 +17,7 @@ export const STable = (props: BaseTableProps<any>) => {
     pageSize: 10,
     current: 1,
   });
-
+  const d = '222'
   const getTableData = async (): Promise<void> => {
     setLoading(true);
     try {
